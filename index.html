@@ -22,7 +22,7 @@
 
         <nav class="nav" aria-label="Navigation principale" id="mainNav">
             <a href="#top" aria-current="page">Accueil</a>
-            <a href="#tendances-films">Films</a>
+            <a href="#genres-films">Par genre</a>
             <a href="#series-populaires">Séries</a>
             <a href="#nouveautes-films">Nouveautés</a>
         </nav>
@@ -52,31 +52,31 @@
 </section>
 
 <main class="shell" id="top">
-    <!-- Tendances (Films) -->
-    <section class="category" id="tendances-films" aria-label="Tendances – Films">
+    <!-- Par genre (Films) : généré dynamiquement en carrousels horizontaux -->
+    <section class="category" id="genres-films" aria-label="Explorer par genre (films)">
         <div class="section-head">
-            <h2>Tendances</h2>
-            <a class="more" href="#tendances-films" aria-label="Voir toutes les tendances films">Tout voir →</a>
+            <h2>Explorer par genre</h2>
+            <a class="more" href="#genres-films" aria-label="Revenir à la section Genres">Haut de section ↑</a>
         </div>
-        <div class="grid" id="grid-trending" aria-busy="false"></div>
+        <div id="genres-rows" class="genre-rows" aria-live="polite"></div>
     </section>
 
-    <!-- Nouveautés (Films) -->
-    <section class="category" id="nouveautes-films" aria-label="Nouveautés – Films">
-        <div class="section-head">
-            <h2>Nouveautés</h2>
-            <a class="more" href="#nouveautes-films" aria-label="Voir toutes les nouveautés films">Tout voir →</a>
-        </div>
-        <div class="grid" id="grid-upcoming" aria-busy="false"></div>
-    </section>
-
-    <!-- Séries populaires -->
+    <!-- Séries populaires (gardé pour l’exemple) -->
     <section class="category" id="series-populaires" aria-label="Séries populaires">
         <div class="section-head">
             <h2>Séries populaires</h2>
-            <a class="more" href="#series-populaires" aria-label="Voir toutes les séries populaires">Tout voir →</a>
+            <a class="more" href="#series-populaires">Tout voir →</a>
         </div>
         <div class="grid" id="grid-series" aria-busy="false"></div>
+    </section>
+
+    <!-- Nouveautés (Films) (gardé pour l’exemple) -->
+    <section class="category" id="nouveautes-films" aria-label="Nouveautés – Films">
+        <div class="section-head">
+            <h2>Nouveautés</h2>
+            <a class="more" href="#nouveautes-films">Tout voir →</a>
+        </div>
+        <div class="grid" id="grid-upcoming" aria-busy="false"></div>
     </section>
 </main>
 

@@ -304,3 +304,96 @@ html { scroll-behavior: smooth; }
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }
+
+/* =========================
+   Carrousels horizontaux par genre
+   ========================= */
+
+.row{
+    position:relative;
+    margin-bottom: var(--space-md);
+}
+
+.row-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin: 8px 2px 8px;
+}
+.row-head h3{ margin:0; font-size: clamp(16px, 2vw, 22px); }
+
+/* Piste horizontale avec inertie + scroll-snap */
+.row-track{
+    display:grid;
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(140px, 18vw, 200px);
+    gap: var(--space-sm);
+
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 24px;
+
+    padding: 6px 24px 12px;
+}
+.row-track > .card{ scroll-snap-align: start; }
+
+/* Scrollbar discrète (WebKit) */
+.row-track::-webkit-scrollbar{ height:10px; }
+.row-track::-webkit-scrollbar-thumb{
+    background: color-mix(in srgb, var(--panel) 70%, transparent);
+    border-radius: 8px;
+}
+
+/* Flèches gauche/droite superposées */
+.row-nav{
+    position:absolute;
+    inset-block: 0; /* top/bottom */
+    inset-inline: 0; /* span full row for easy positioning */
+    display:flex; align-items:center; justify-content:space-between;
+    pointer-events:none; /* évite de bloquer le drag sur la piste */
+}
+.row-nav .arrow{
+    pointer-events:auto;
+    border:none;
+    width:42px; height:42px; border-radius:50%;
+    background: color-mix(in srgb, var(--panel) 85%, transparent);
+    backdrop-filter: blur(6px);
+    display:grid; place-items:center;
+    box-shadow: 0 6px 14px rgba(0,0,0,.25);
+    cursor:pointer;
+    transition: transform var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+    opacity:.95;
+}
+.row-nav .arrow:hover{
+    transform: scale(1.05);
+    background: color-mix(in srgb, var(--panel) 95%, transparent);
+}
+.row-nav .arrow[disabled]{ opacity:.35; cursor:not-allowed; }
+.row-nav .arrow svg{ width:18px; height:18px; }
+
+/* Squelettes pour chargement des rangées (optionnel, harmonisé avec ta grille) */
+.row-track[aria-busy="true"] .card{
+    position:relative; overflow:hidden;
+    background: color-mix(in srgb, var(--card) 60%, transparent);
+}
+.row-track[aria-busy="true"] .poster,
+.row-track[aria-busy="true"] .meta .title,
+.row-track[aria-busy="true"] .meta .sub{
+    background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.02), rgba(255,255,255,.08));
+    background-size: 200% 100%;
+    animation: sf-shimmer 1.2s linear infinite;
+    color: transparent;
+}
+.row-track[aria-busy="true"] .poster{ aspect-ratio: var(--card-aspect); }
+.row-track[aria-busy="true"] .meta{ padding: var(--space-sm); }
+.row-track[aria-busy="true"] .meta .title{ height: 16px; margin-bottom: 6px; border-radius: 6px; }
+.row-track[aria-busy="true"] .meta .sub{ height: 12px; width: 40%; border-radius: 6px; }
+
+/* Petits ajustements responsive */
+@media (min-width: 900px){
+    .row-track{ grid-auto-columns: clamp(170px, 16vw, 220px); }
+}
+@media (min-width: 1200px){
+    .row-track{ grid-auto-columns: clamp(180px, 14vw, 240px); }
+}
