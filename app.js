@@ -16,18 +16,18 @@ searchForm?.addEventListener('submit', async (e)=>{
     searchTimer = setTimeout(async ()=>{
         try{
             gridTrending.setAttribute('aria-busy','true');
-            const res = await tmdbFetch(TMDB.apiUrl('/search/movie', { query: q, page:1 }));
-            renderToGrid('grid-trending', res.results?.slice(0,12) ?? []);
+
+            // Recherche multi (films + séries)
+            const res = await tmdbFetch(TMDB.apiUrl('/search/multi', { query: q, page:1 }));
+            const items = (res.results ?? []).filter(x => ['movie','tv'].includes(x.media_type));
+            renderToGrid('grid-trending', items.slice(0,12));
         } catch(err){
             console.error(err);
         } finally {
             gridTrending.removeAttribute('aria-busy');
         }
-    }, 300); // debounce 300ms
+    }, 300);
 });
-
-
-
 
 
 /* ========== Thème avec persistence ========== */
@@ -173,6 +173,10 @@ async function loadHomepage(){
         const first   = popular.results?.[0];
         if (first) updateHeroFromMovie(first);
         if (popular.results) renderToGrid("grid-trending", popular.results.slice(0, 12));
+
+        // séries populaires → section séries
+        const tvPopular = await tmdbFetch(TMDB.apiUrl("/tv/popular", { page: 1 }));
+        if (tvPopular.results) renderToGrid("grid-series", tvPopular.results.slice(0, 12));
 
         // films à venir → nouveautés
         const upcoming = await tmdbFetch(TMDB.apiUrl("/movie/upcoming", { page: 1 }));

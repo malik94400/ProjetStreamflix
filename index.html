@@ -21,10 +21,10 @@
         </a>
 
         <nav class="nav" aria-label="Navigation principale">
-            <a href="#" aria-current="page">Accueil</a>
-            <a href="#">Films</a>
-            <a href="#">Séries</a>
-            <a href="#">Nouveautés</a>
+            <a href="#top" aria-current="page">Accueil</a>
+            <a href="#tendances-films">Films</a>
+            <a href="#series-populaires">Séries</a>
+            <a href="#nouveautes-films">Nouveautés</a>
         </nav>
 
         <div class="actions">
@@ -51,44 +51,32 @@
     </div>
 </section>
 
-<main class="shell">
-    <!-- Tendances (rempli par l'API) -->
-    <section class="category" aria-label="Tendances">
+<main class="shell" id="top">
+    <!-- Tendances (Films) -->
+    <section class="category" id="tendances-films" aria-label="Tendances – Films">
         <div class="section-head">
             <h2>Tendances</h2>
-            <a class="more" href="#">Tout voir →</a>
+            <a class="more" href="#tendances-films" aria-label="Voir toutes les tendances films">Tout voir →</a>
         </div>
-        <div class="grid" id="grid-trending"></div>
+        <div class="grid" id="grid-trending" aria-busy="false"></div>
     </section>
 
-    <!-- Nouveautés (rempli par l'API) -->
-    <section class="category" aria-label="Nouveautés">
+    <!-- Nouveautés (Films) -->
+    <section class="category" id="nouveautes-films" aria-label="Nouveautés – Films">
         <div class="section-head">
             <h2>Nouveautés</h2>
-            <a class="more" href="#">Tout voir →</a>
+            <a class="more" href="#nouveautes-films" aria-label="Voir toutes les nouveautés films">Tout voir →</a>
         </div>
-        <div class="grid" id="grid-upcoming"></div>
+        <div class="grid" id="grid-upcoming" aria-busy="false"></div>
     </section>
 
-    <!-- Onglets (tu pourras connecter des filtres plus tard) -->
-    <section class="category tabs" id="onglets" aria-label="Explorer">
+    <!-- NOUVELLE SECTION : Séries populaires -->
+    <section class="category" id="series-populaires" aria-label="Séries populaires">
         <div class="section-head">
-            <h2>Explorer</h2>
-            <a class="more" href="#">Tout voir →</a>
+            <h2>Séries populaires</h2>
+            <a class="more" href="#series-populaires" aria-label="Voir toutes les séries populaires">Tout voir →</a>
         </div>
-
-        <div role="tablist" aria-label="Catégories">
-            <button role="tab" aria-selected="true">Populaire</button>
-            <button role="tab" aria-selected="false">Action</button>
-            <button role="tab" aria-selected="false">Comédie</button>
-            <span class="indicator" aria-hidden="true"></span>
-        </div>
-
-        <div class="tab-panels">
-            <div role="tabpanel" class="grid" aria-label="Populaire" id="tab-populaire"></div>
-            <div role="tabpanel" hidden class="grid" aria-label="Action" id="tab-action"></div>
-            <div role="tabpanel" hidden class="grid" aria-label="Comédie" id="tab-comedie"></div>
-        </div>
+        <div class="grid" id="grid-series" aria-busy="false"></div>
     </section>
 </main>
 

@@ -157,3 +157,33 @@ footer{ margin-top:var(--space-xl); padding:var(--space-lg) 0; border-top:1px so
     transition: translate var(--dur-med) var(--ease), width var(--dur-med) var(--ease);
 }
 .tab-panels{ padding-top:var(--space-sm); }
+
+/* Défilement confortable */
+html { scroll-behavior: smooth; }
+
+/* Skeletons quand aria-busy="true" */
+.grid[aria-busy="true"]::before{
+    content:"";
+    display:block; height:0; margin-bottom:var(--space-sm);
+}
+.grid[aria-busy="true"] .card{
+    position:relative; overflow:hidden;
+    background: color-mix(in srgb, var(--card) 60%, transparent);
+}
+.grid[aria-busy="true"] .poster,
+.grid[aria-busy="true"] .meta .title,
+.grid[aria-busy="true"] .meta .sub{
+    background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.02), rgba(255,255,255,.08));
+    background-size: 200% 100%;
+    animation: sf-shimmer 1.2s linear infinite;
+    color: transparent;
+}
+.grid[aria-busy="true"] .poster{ aspect-ratio: var(--card-aspect); }
+.grid[aria-busy="true"] .meta{ padding: var(--space-sm); }
+.grid[aria-busy="true"] .meta .title{ height: 16px; margin-bottom: 6px; border-radius: 6px; }
+.grid[aria-busy="true"] .meta .sub{ height: 12px; width: 40%; border-radius: 6px; }
+
+@keyframes sf-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
