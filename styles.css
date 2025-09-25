@@ -23,6 +23,9 @@
     --hero-image: url('https://image.benq.com/is/image/benqco/w4100i-kv?$ResponsivePreset$');
     --hero-pos: center;
     --hero-overlay: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.2) 35%, rgba(0,0,0,.6) 100%);
+
+    /* Hauteur approx. du header pour les ancres */
+    --header-h: 64px;
 }
 
 /* =========================
@@ -81,7 +84,8 @@ button{ font:inherit; color:inherit; }
 .nav a{ padding:8px 10px; border-radius:10px; color:var(--muted);
     transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
-.nav a[aria-current="page"], .nav a:hover{ color:var(--text); background:color-mix(in srgb, var(--accent) 20%, transparent); }
+.nav a[aria-current="page"], .nav a.is-active{ color:var(--text); background:color-mix(in srgb, var(--accent) 20%, transparent); }
+.nav a:hover{ color:var(--text); background:color-mix(in srgb, var(--accent) 10%, transparent); }
 
 .actions{ display:flex; align-items:center; gap:var(--space-xs); }
 
@@ -147,6 +151,7 @@ button{ font:inherit; color:inherit; }
     padding:var(--space-xl) 0 var(--space-lg);
     background: var(--hero-overlay), var(--hero-image) var(--hero-pos)/cover no-repeat;
     box-shadow: inset 0 -120px 120px -80px rgba(0,0,0,.55);
+    scroll-margin-top: var(--header-h);
 }
 .hero .content{ max-width:720px; padding-bottom:var(--space-lg); }
 .eyebrow{ color:var(--accent-2); font-weight:600; letter-spacing:.08em; text-transform:uppercase; font-size:.8rem; }
@@ -157,7 +162,7 @@ button{ font:inherit; color:inherit; }
 /* =========================
    Sections / grilles
    ========================= */
-section.category{ padding:var(--space-lg) 0; }
+section.category{ padding:var(--space-lg) 0; scroll-margin-top: calc(var(--header-h) + 12px); }
 .section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-sm); margin-bottom:var(--space-sm); }
 .section-head h2{ font-size:var(--font-size-h2); }
 .section-head a.more{ color:var(--muted); font-size:.95em; }
@@ -173,6 +178,7 @@ section.category{ padding:var(--space-lg) 0; }
     background:var(--card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;
     transition: transform var(--dur-med) var(--ease), box-shadow var(--dur-med) var(--ease), border-color var(--dur-fast) var(--ease);
     will-change: transform;
+    cursor: pointer;
 }
 .card:hover{ transform: translateY(-2px) scale(1.01); box-shadow:var(--shadow);
     border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
@@ -188,6 +194,45 @@ section.category{ padding:var(--space-lg) 0; }
 .meta .sub{ color:var(--muted); font-size:.95em; }
 
 /* =========================
+   Panneau détails (overlay)
+   ========================= */
+.overlay[hidden] { display:none; }
+.overlay{
+    position:fixed; inset:0; z-index:80; display:grid; place-items:center; padding:24px;
+}
+.overlay-backdrop{
+    position:absolute; inset:0; background:rgba(0,0,0,.55);
+    opacity:0; animation: fade-in var(--dur-med) var(--ease) forwards;
+}
+.detail-card{
+    position:relative; display:grid; grid-template-columns: 1fr; gap:16px;
+    width:min(920px, 100%); background:var(--panel); border:1px solid var(--border); border-radius:16px;
+    box-shadow: var(--shadow);
+    overflow:hidden;
+    transform: translateY(12px) scale(.98);
+    opacity:0;
+    animation: card-in 220ms var(--ease) forwards;
+}
+.detail-close{ position:absolute; top:8px; right:8px; z-index:1; }
+.detail-media{ max-height: 420px; overflow:hidden; }
+.detail-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+.detail-body{ padding:16px 16px 20px; }
+.detail-body h3{ margin:0 0 6px; font-size: clamp(20px, 3vw, 28px); }
+.detail-meta{ margin:0 0 10px; color:var(--muted); }
+.detail-overview{ margin:0 0 14px; line-height:1.5; }
+.detail-extra{ display:flex; flex-wrap:wrap; gap:8px; font-size:.95em; color:var(--muted); }
+.detail-extra .pill{ padding:6px 10px; border-radius:999px; border:1px solid var(--border); }
+
+@media (min-width:800px){
+    .detail-card{ grid-template-columns: 1fr 1.2fr; }
+    .detail-media{ max-height: none; }
+}
+
+/* Animations */
+@keyframes fade-in { to { opacity:1; } }
+@keyframes card-in { to { opacity:1; transform: translateY(0) scale(1); } }
+
+/* =========================
    Pied de page (Footer)
    ========================= */
 footer{ margin-top:var(--space-xl); padding:var(--space-lg) 0; border-top:1px solid var(--border); color:var(--muted); }
@@ -196,7 +241,9 @@ footer{ margin-top:var(--space-xl); padding:var(--space-lg) 0; border-top:1px so
    Accessibilité & préférences
    ========================= */
 :focus-visible{ outline:2px solid var(--accent-2); outline-offset:2px; border-radius:6px; }
-@media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
+@media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+}
 
 /* =========================
    Points de rupture (Breakpoints)

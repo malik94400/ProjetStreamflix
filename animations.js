@@ -1,4 +1,3 @@
-// animations.js
 export function setupThemeToggle() {
     const themes = ["dark", "light", "sepia"];
     const root = document.documentElement;
@@ -50,4 +49,37 @@ export function setupTabsIndicator() {
         if (active>-1) selectTab(active);
     });
     selectTab(0);
+}
+
+/* === Scroll-Spy pour la nav === */
+export function setupScrollSpyNav() {
+    const nav = document.getElementById('mainNav');
+    if (!nav) return;
+
+    const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+    const map = new Map();
+    links.forEach(a => {
+        const id = a.getAttribute('href')?.slice(1);
+        const sec = id ? document.getElementById(id) : null;
+        if (sec) map.set(sec, a);
+    });
+
+    function setActive(a) {
+        links.forEach(x => { x.classList.remove('is-active'); x.removeAttribute('aria-current'); });
+        a?.classList.add('is-active');
+        a?.setAttribute('aria-current','page');
+    }
+
+    const obs = new IntersectionObserver((entries)=>{
+        // choisir la section la plus visible (ratio le plus grand)
+        const best = entries
+            .filter(e => e.isIntersecting)
+            .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
+        if (best) setActive(map.get(best.target));
+    }, { rootMargin: "-40% 0px -50% 0px", threshold: [0.25, 0.6, 0.9] });
+
+    map.forEach((_, sec)=> obs.observe(sec));
+
+    // Activer au clic aussi
+    links.forEach(a => a.addEventListener('click', () => setActive(a)));
 }

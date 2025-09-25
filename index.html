@@ -20,7 +20,7 @@
             <span onclick="window.location.href='index.html'" style="cursor:pointer;">StreamFlix</span>
         </a>
 
-        <nav class="nav" aria-label="Navigation principale">
+        <nav class="nav" aria-label="Navigation principale" id="mainNav">
             <a href="#top" aria-current="page">Accueil</a>
             <a href="#tendances-films">Films</a>
             <a href="#series-populaires">Séries</a>
@@ -70,7 +70,7 @@
         <div class="grid" id="grid-upcoming" aria-busy="false"></div>
     </section>
 
-    <!-- NOUVELLE SECTION : Séries populaires -->
+    <!-- Séries populaires -->
     <section class="category" id="series-populaires" aria-label="Séries populaires">
         <div class="section-head">
             <h2>Séries populaires</h2>
@@ -85,6 +85,23 @@
         <p>© 2025 StreamFlix. Tous droits réservés.</p>
     </div>
 </footer>
+
+<!-- Panneau de détails (fiche) -->
+<div class="overlay" id="detailOverlay" hidden>
+    <div class="overlay-backdrop" data-close></div>
+    <article class="detail-card" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+        <button class="detail-close btn" type="button" aria-label="Fermer la fiche" data-close>✕</button>
+        <div class="detail-media">
+            <img id="detailPoster" alt="" />
+        </div>
+        <div class="detail-body">
+            <h3 id="detailTitle">Titre</h3>
+            <p class="detail-meta" id="detailMeta"></p>
+            <p class="detail-overview" id="detailOverview"></p>
+            <div class="detail-extra" id="detailExtra"></div>
+        </div>
+    </article>
+</div>
 
 <script src="animations.js"></script>
 <script src="api.js"></script>
