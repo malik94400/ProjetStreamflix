@@ -32,7 +32,7 @@
                 <input id="searchInput" name="q" type="search" placeholder="Rechercher un film…" aria-label="Rechercher un film" required minlength="2">
                 <button class="btn" type="submit">OK</button>
             </form>
-            <button class="btn" id="themeToggle" type="button" title="Changer de thème">Thème</button>
+            <button class="btn" id="themeToggle" type="button" title="Changer de thème">🌓</button>
             <button class="btn btn--primary" type="button">S'abonner</button>
         </div>
     </div>
@@ -80,8 +80,46 @@
     </section>
 </main>
 
-<footer>
-    <div class="shell">
+<footer class="site-footer">
+    <div class="shell footer-grid">
+
+        <!-- Bloc identité -->
+        <div class="footer-brand">
+            <a class="brand" href="#">
+                <span class="dot" aria-hidden="true"></span>
+                StreamFlix
+            </a>
+            <p>Votre destination cinéma & séries en streaming illimité. Qualité HD, sans engagement.</p>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="footer-nav" aria-label="Liens utiles">
+            <h4>Explorer</h4>
+            <ul>
+                <li><a href="#genres-films">Films</a></li>
+                <li><a href="#series-populaires">Séries</a></li>
+                <li><a href="#nouveautes-films">Nouveautés</a></li>
+            </ul>
+        </nav>
+
+        <nav class="footer-nav" aria-label="Société">
+            <h4>À propos</h4>
+            <ul>
+                <li><a href="#">Qui sommes-nous</a></li>
+                <li><a href="#">Aide & Support</a></li>
+                <li><a href="#">Mentions légales</a></li>
+                <li><a href="#">Confidentialité</a></li>
+            </ul>
+        </nav>
+
+        <!-- Réseaux sociaux -->
+        <div class="footer-social">
+            <h4>Suivez-nous</h4>
+            <a href="#" aria-label="Twitter" title="Twitter">🐦</a>
+        </div>
+    </div>
+
+    <div class="shell footer-bottom">
         <p>© 2025 StreamFlix. Tous droits réservés.</p>
     </div>
 </footer>
