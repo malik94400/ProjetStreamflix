@@ -2,7 +2,9 @@
    StreamFlix – Base CSS (mobile-first)
 ------------------------------------------ */
 
-/* 1) Variables (3 thèmes) */
+/* =========================
+   Variables (3 thèmes)
+   ========================= */
 :root{
     --space-2xs:4px; --space-xs:8px; --space-sm:12px; --space-md:16px;
     --space-lg:24px; --space-xl:32px; --space-2xl:48px;
@@ -23,7 +25,9 @@
     --hero-overlay: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.2) 35%, rgba(0,0,0,.6) 100%);
 }
 
-/* Thèmes */
+/* =========================
+   Thèmes
+   ========================= */
 [data-theme="dark"]{
     --bg:#0b0e17; --panel:#0f1424; --muted:#8b93a7; --text:#e9edf7;
     --accent:#e50914; --accent-2:#7dd3fc; --border:#1b233b; --card:#12182b;
@@ -37,7 +41,9 @@
     --accent:#d97706; --accent-2:#fb923c; --border:#3a2f27; --card:#2a221c;
 }
 
-/* Reset léger */
+/* =========================
+   Reset léger
+   ========================= */
 *,*::before,*::after{ box-sizing:border-box; }
 html,body{ height:100%; }
 body{
@@ -51,7 +57,9 @@ button{ font:inherit; color:inherit; }
 
 .shell{ width:min(1200px, 100% - 2*var(--space-md)); margin-inline:auto; }
 
-/* Header */
+/* =========================
+   En-tête (Header)
+   ========================= */
 .site-header{
     position:sticky; top:0; z-index:50;
     backdrop-filter:saturate(1.2) blur(6px);
@@ -76,6 +84,10 @@ button{ font:inherit; color:inherit; }
 .nav a[aria-current="page"], .nav a:hover{ color:var(--text); background:color-mix(in srgb, var(--accent) 20%, transparent); }
 
 .actions{ display:flex; align-items:center; gap:var(--space-xs); }
+
+/* =========================
+   Boutons (Buttons)
+   ========================= */
 .btn{
     border:1px solid var(--border); background: color-mix(in srgb, var(--panel) 70%, transparent);
     padding:8px 12px; border-radius:12px; cursor:pointer;
@@ -85,7 +97,51 @@ button{ font:inherit; color:inherit; }
 .btn--primary{ background:var(--accent); border-color:transparent; color:#fff; }
 .btn--primary:hover{ filter:brightness(1.05); }
 
-/* Hero (sans parallax/3D) */
+/* --- Barre de recherche améliorée --- */
+#searchForm {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#searchForm input[type="text"],
+#searchForm input[type="search"] {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: var(--panel);
+    color: var(--text);
+    transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+    outline: none;
+}
+
+#searchForm input[type="text"]:focus,
+#searchForm input[type="search"]:focus {
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-2) 40%, transparent);
+}
+
+/* --- Amélioration du bouton "Rechercher" --- */
+#searchForm .btn {
+    background: var(--accent-2);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+#searchForm .btn:hover {
+    background: var(--accent);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   Section Héros (Hero)
+   ========================= */
 .hero{
     position:relative; min-height:56vh; display:grid; place-items:end start; isolation:isolate;
     padding:var(--space-xl) 0 var(--space-lg);
@@ -98,7 +154,9 @@ button{ font:inherit; color:inherit; }
 .hero p{ color:var(--muted); margin-bottom:var(--space-md); }
 .hero .ctas{ display:flex; gap:var(--space-sm); }
 
-/* Sections / grilles */
+/* =========================
+   Sections / grilles
+   ========================= */
 section.category{ padding:var(--space-lg) 0; }
 .section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-sm); margin-bottom:var(--space-sm); }
 .section-head h2{ font-size:var(--font-size-h2); }
@@ -129,19 +187,27 @@ section.category{ padding:var(--space-lg) 0; }
 .meta .title{ font-weight:600; line-height:1.2; margin-bottom:4px; }
 .meta .sub{ color:var(--muted); font-size:.95em; }
 
-/* Footer */
+/* =========================
+   Pied de page (Footer)
+   ========================= */
 footer{ margin-top:var(--space-xl); padding:var(--space-lg) 0; border-top:1px solid var(--border); color:var(--muted); }
 
-/* Accessibilité & préférences */
+/* =========================
+   Accessibilité & préférences
+   ========================= */
 :focus-visible{ outline:2px solid var(--accent-2); outline-offset:2px; border-radius:6px; }
 @media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
 
-/* Breakpoints */
+/* =========================
+   Points de rupture (Breakpoints)
+   ========================= */
 @media (min-width:600px){ .nav{ gap:var(--space-md); } .hero{ min-height:62vh; } .grid{ --min:150px; } }
 @media (min-width:900px){ .hero{ min-height:68vh; } .grid{ --min:180px; } }
 @media (min-width:1200px){ .grid{ --min:200px; } }
 
-/* Tabs (pills propres) */
+/* =========================
+   Onglets (Tabs)
+   ========================= */
 .tabs [role="tablist"]{
     display:inline-flex; gap:var(--space-sm); padding:6px;
     background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); position:relative;
@@ -158,10 +224,14 @@ footer{ margin-top:var(--space-xl); padding:var(--space-lg) 0; border-top:1px so
 }
 .tab-panels{ padding-top:var(--space-sm); }
 
-/* Défilement confortable */
+/* =========================
+   Défilement confortable
+   ========================= */
 html { scroll-behavior: smooth; }
 
-/* Skeletons quand aria-busy="true" */
+/* =========================
+   Squelettes (Skeletons)
+   ========================= */
 .grid[aria-busy="true"]::before{
     content:"";
     display:block; height:0; margin-bottom:var(--space-sm);
