@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StreamFlix – Accueil</title>
+
+    <!-- Polices -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Header -->
+<header class="site-header" id="header">
+    <div class="shell bar">
+        <a class="brand" href="#" aria-label="StreamFlix, Accueil">
+            <span class="dot" aria-hidden="true"></span>
+            <span onclick="window.location.href='index.html'" style="cursor:pointer;">StreamFlix</span>
+        </a>
+
+        <nav class="nav" aria-label="Navigation principale">
+            <a href="#" aria-current="page">Accueil</a>
+            <a href="#">Films</a>
+            <a href="#">Séries</a>
+            <a href="#">Nouveautés</a>
+        </nav>
+
+        <div class="actions">
+            <form id="searchForm" role="search" aria-label="Rechercher des films" novalidate>
+                <input id="searchInput" name="q" type="search" placeholder="Rechercher un film…" aria-label="Rechercher un film" required minlength="2">
+                <button class="btn" type="submit">OK</button>
+            </form>
+            <button class="btn" id="themeToggle" type="button" title="Changer de thème">Thème</button>
+            <button class="btn btn--primary" type="button">S'abonner</button>
+        </div>
+    </div>
+</header>
+
+<!-- Hero (rempli par l'API) -->
+<section class="hero" id="hero" aria-label="Film en vedette">
+    <div class="shell content">
+        <div class="eyebrow">Coup de cœur du moment</div>
+        <h1>Le frisson commence ici.</h1>
+        <p>Découvrez des milliers de films et séries en qualité HD. Annulez à tout moment. Regardez partout.</p>
+        <div class="ctas">
+            <a class="btn btn--primary" href="#" id="heroPlayBtn">Regarder maintenant</a>
+            <a class="btn" href="#" id="heroInfoBtn">Voir la fiche</a>
+        </div>
+    </div>
+</section>
+
+<main class="shell">
+    <!-- Tendances (rempli par l'API) -->
+    <section class="category" aria-label="Tendances">
+        <div class="section-head">
+            <h2>Tendances</h2>
+            <a class="more" href="#">Tout voir →</a>
+        </div>
+        <div class="grid" id="grid-trending"></div>
+    </section>
+
+    <!-- Nouveautés (rempli par l'API) -->
+    <section class="category" aria-label="Nouveautés">
+        <div class="section-head">
+            <h2>Nouveautés</h2>
+            <a class="more" href="#">Tout voir →</a>
+        </div>
+        <div class="grid" id="grid-upcoming"></div>
+    </section>
+
+    <!-- Onglets (tu pourras connecter des filtres plus tard) -->
+    <section class="category tabs" id="onglets" aria-label="Explorer">
+        <div class="section-head">
+            <h2>Explorer</h2>
+            <a class="more" href="#">Tout voir →</a>
+        </div>
+
+        <div role="tablist" aria-label="Catégories">
+            <button role="tab" aria-selected="true">Populaire</button>
+            <button role="tab" aria-selected="false">Action</button>
+            <button role="tab" aria-selected="false">Comédie</button>
+            <span class="indicator" aria-hidden="true"></span>
+        </div>
+
+        <div class="tab-panels">
+            <div role="tabpanel" class="grid" aria-label="Populaire" id="tab-populaire"></div>
+            <div role="tabpanel" hidden class="grid" aria-label="Action" id="tab-action"></div>
+            <div role="tabpanel" hidden class="grid" aria-label="Comédie" id="tab-comedie"></div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="shell">
+        <p>© 2025 StreamFlix. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
