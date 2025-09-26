@@ -45,7 +45,7 @@ export function setupHeaderShrink() {
             });
             ticking = true;
         }
-    }, { passive: true });
+    }, {passive: true});
 }
 
 /* ------------------------------------------------------------
@@ -62,8 +62,8 @@ export function setupTabsIndicator() {
 
     // Sélectionner un onglet par index
     function selectTab(idx) {
-        tabs.forEach((t,i)=> t.setAttribute('aria-selected', i===idx ? 'true' : 'false'));
-        panels.forEach((p,i)=> p.hidden = i!==idx);
+        tabs.forEach((t, i) => t.setAttribute('aria-selected', i === idx ? 'true' : 'false'));
+        panels.forEach((p, i) => p.hidden = i !== idx);
 
         // Déplacer/Redimensionner la barre sous l’onglet actif
         const tab = tabs[idx];
@@ -74,12 +74,12 @@ export function setupTabsIndicator() {
     }
 
     // Clic: activer l’onglet correspondant
-    tabs.forEach((t,i)=> t.addEventListener('click', ()=> selectTab(i)));
+    tabs.forEach((t, i) => t.addEventListener('click', () => selectTab(i)));
 
     // Recalcule si on redimensionne la fenêtre (pour réaligner l’indicateur)
-    window.addEventListener('resize', ()=>{
-        const active = tabs.findIndex(t=> t.getAttribute('aria-selected')==='true');
-        if (active>-1) selectTab(active);
+    window.addEventListener('resize', () => {
+        const active = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+        if (active > -1) selectTab(active);
     });
 
     // Par défaut, prendre le premier onglet
@@ -106,21 +106,24 @@ export function setupScrollSpyNav() {
 
     // Petite fonction utilitaire pour la classe active
     function setActive(a) {
-        links.forEach(x => { x.classList.remove('is-active'); x.removeAttribute('aria-current'); });
+        links.forEach(x => {
+            x.classList.remove('is-active');
+            x.removeAttribute('aria-current');
+        });
         a?.classList.add('is-active');
-        a?.setAttribute('aria-current','page');
+        a?.setAttribute('aria-current', 'page');
     }
 
     // Observer la visibilité des sections et choisir la “meilleure”
-    const obs = new IntersectionObserver((entries)=>{
+    const obs = new IntersectionObserver((entries) => {
         // On prend celle qui a le ratio d’intersection le plus grand
         const best = entries
             .filter(e => e.isIntersecting)
-            .sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (best) setActive(map.get(best.target));
-    }, { rootMargin: "-40% 0px -50% 0px", threshold: [0.25, 0.6, 0.9] });
+    }, {rootMargin: "-40% 0px -50% 0px", threshold: [0.25, 0.6, 0.9]});
 
-    map.forEach((_, sec)=> obs.observe(sec));
+    map.forEach((_, sec) => obs.observe(sec));
 
     // Au clic, on force aussi l’état “actif”
     links.forEach(a => a.addEventListener('click', () => setActive(a)));
