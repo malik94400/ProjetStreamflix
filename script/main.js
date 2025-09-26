@@ -5,6 +5,7 @@
 
 import {TMDB, TMDB_CONFIG, tmdbFetch} from './api.js';
 import {setupThemeToggle, setupHeaderShrink, setupTabsIndicator, setupScrollSpyNav} from './animations.js';
+import { buildHeroFromTMDB } from './hero-slider.js';
 
 /* ------------------------------------------------------------
    Recherche (formulaire simple avec mini-debounce)
@@ -363,6 +364,7 @@ document.addEventListener('click', async (e) => {
     const id = card.dataset.id;
     const media = card.dataset.media || 'movie';
     try {
+        const { media, id } = e.detail;
         const payload = await fetchDetails(media, id);
         openDetails(payload);
     } catch (err) {
@@ -383,4 +385,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Chargement des sections depuis TMDB
     await loadNonGenreSections();
     await buildGenreRows();
+    await buildHeroFromTMDB();
 });

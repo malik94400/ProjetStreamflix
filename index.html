@@ -50,16 +50,28 @@
      Hero (rempli par l'API au chargement)
      NOTE: le background est mis à jour avec un film populaire
      ========================================================== -->
-<section class="hero" id="hero" aria-label="Film en vedette">
-    <div class="shell content">
+<!-- HERO SLIDER -->
+<section class="hero-slider" id="hero" aria-label="Sélection du moment">
+    <div class="slider-viewport">
+        <ul class="slides" id="heroSlides" aria-live="polite"></ul>
+        <div class="hero-gradient" aria-hidden="true"></div>
+    </div>
+
+    <!-- Contenu textuel au-dessus (comme avant) -->
+    <div class="shell hero-content">
         <div class="eyebrow">Coup de cœur du moment</div>
-        <h1>Le frisson commence ici.</h1>
-        <p>Découvrez des milliers de films et séries en qualité HD. Annulez à tout moment. Regardez partout.</p>
+        <h1 id="heroTitle">Le frisson commence ici.</h1>
+        <p id="heroDesc">Découvrez des milliers de films et séries en qualité HD. Annulez à tout moment.</p>
         <div class="ctas">
             <a class="btn btn--primary" href="#" id="heroPlayBtn">Regarder maintenant</a>
             <a class="btn" href="#" id="heroInfoBtn">Voir la fiche</a>
         </div>
     </div>
+
+    <!-- Contrôles -->
+    <button class="hero-nav prev" aria-label="Diapositive précédente">❮</button>
+    <button class="hero-nav next" aria-label="Diapositive suivante">❯</button>
+    <ol class="hero-dots" id="heroDots" aria-label="Choisir une diapositive"></ol>
 </section>
 
 <!-- ==========================================================
@@ -166,6 +178,7 @@
      ========================================================== -->
 <script src="script/animations.js"></script>
 <script src="script/api.js"></script>
+<script type="module" src="script/hero-slider.js"></script>
 <script type="module" src="script/main.js"></script>
 
 </body>
