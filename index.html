@@ -4,22 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>StreamFlix – Accueil</title>
-
-    <!-- Polices -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<!-- Header -->
+
+<!-- ==========================================================
+     Header (logo + nav + recherche + actions)
+     NOTE: sticky, se “rétrécit” au scroll via JS
+     ========================================================== -->
 <header class="site-header" id="header">
     <div class="shell bar">
+        <!-- Logo/brand -->
         <a class="brand" href="#" aria-label="StreamFlix, Accueil">
             <span class="dot" aria-hidden="true"></span>
             <span onclick="window.location.href='index.html'" style="cursor:pointer;">StreamFlix</span>
         </a>
 
+        <!-- Navigation principale -->
         <nav class="nav" aria-label="Navigation principale" id="mainNav">
             <a href="#top" aria-current="page">Accueil</a>
             <a href="#genres-films">Par genre</a>
@@ -27,18 +30,25 @@
             <a href="#nouveautes-films">Nouveautés</a>
         </nav>
 
+        <!-- Actions (recherche + thème + CTA abonnement) -->
         <div class="actions">
+            <!-- Formulaire de recherche (validations natives) -->
             <form id="searchForm" role="search" aria-label="Rechercher des films" novalidate>
                 <input id="searchInput" name="q" type="search" placeholder="Rechercher un film…" aria-label="Rechercher un film" required minlength="2">
                 <button class="btn" type="submit">OK</button>
             </form>
+            <!-- Toggle thème -->
             <button class="btn" id="themeToggle" type="button" title="Changer de thème">🌓</button>
+            <!-- Bouton abonnement (factice) -->
             <button class="btn btn--primary" type="button">S'abonner</button>
         </div>
     </div>
 </header>
 
-<!-- Hero (rempli par l'API) -->
+<!-- ==========================================================
+     Hero (rempli par l'API au chargement)
+     NOTE: le background est mis à jour avec un film populaire
+     ========================================================== -->
 <section class="hero" id="hero" aria-label="Film en vedette">
     <div class="shell content">
         <div class="eyebrow">Coup de cœur du moment</div>
@@ -51,6 +61,9 @@
     </div>
 </section>
 
+<!-- ==========================================================
+     Contenu principal (sections dynamiques)
+     ========================================================== -->
 <main class="shell" id="top">
     <!-- Par genre (Films) : généré dynamiquement en carrousels horizontaux -->
     <section class="category" id="genres-films" aria-label="Explorer par genre (films)">
@@ -61,7 +74,7 @@
         <div id="genres-rows" class="genre-rows" aria-live="polite"></div>
     </section>
 
-    <!-- Séries populaires (gardé pour l’exemple) -->
+    <!-- Séries populaires (exemple statique mais rempli par API) -->
     <section class="category" id="series-populaires" aria-label="Séries populaires">
         <div class="section-head">
             <h2>Séries populaires</h2>
@@ -70,7 +83,7 @@
         <div class="grid" id="grid-series" aria-busy="false"></div>
     </section>
 
-    <!-- Nouveautés (Films) (gardé pour l’exemple) -->
+    <!-- Nouveautés Films -->
     <section class="category" id="nouveautes-films" aria-label="Nouveautés – Films">
         <div class="section-head">
             <h2>Nouveautés</h2>
@@ -80,6 +93,9 @@
     </section>
 </main>
 
+<!-- ==========================================================
+     Footer (infos + nav secondaires + socials)
+     ========================================================== -->
 <footer class="site-footer">
     <div class="shell footer-grid">
 
@@ -124,7 +140,10 @@
     </div>
 </footer>
 
-<!-- Panneau de détails (fiche) -->
+<!-- ==========================================================
+     Overlay (fiche détail) — role="dialog"
+     NOTE: affiché quand on clique sur une carte
+     ========================================================== -->
 <div class="overlay" id="detailOverlay" hidden>
     <div class="overlay-backdrop" data-close></div>
     <article class="detail-card" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
@@ -141,9 +160,12 @@
     </article>
 </div>
 
-<script src="animations.js"></script>
-<script src="api.js"></script>
-<script type="module" src="main.js"></script>
+<!-- ==========================================================
+     Scripts (ordre important: animations, api, puis main en module)
+     ========================================================== -->
+<script src="script/animations.js"></script>
+<script src="script/api.js"></script>
+<script type="module" src="script/main.js"></script>
 
 </body>
 </html>
