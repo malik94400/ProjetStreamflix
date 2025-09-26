@@ -1,31 +1,63 @@
-# 🎬 Streamflix
+# 🎬 StreamFlix — Projet Scolaire (HTML / CSS / JS)
 
-Streamflix est une plateforme de streaming fictive inspirée de Netflix, développée dans le cadre d’un projet éducatif.  
-Elle met en avant des films, séries et tendances avec un design moderne, responsive et interactif.
-
----
-
-## 🚀 Fonctionnalités
-
-- **Page d’accueil immersive** avec section *Hero* animée (parallax multi-couches).
-- **Catalogue de films/séries** sous forme de cartes interactives avec effets 3D au survol.
-- **Recherche dynamique** pour trouver rapidement un contenu.
-- **Skeleton loaders** pour une meilleure expérience utilisateur lors du chargement.
-- **Animations en cascade (staggered)** pour l’apparition progressive des cartes.
-- **Responsive design avancé** :
-    - Minimum 5 breakpoints (mobile → desktop XXL).
-    - Typography responsive avec `clamp()`.
-    - Images optimisées avec `<picture>` et `srcset`.
-- **Accessibilité améliorée** (ARIA, attributs alt, contrastes).
+Projet réalisé dans le cadre d’un **travail scolaire** visant à reproduire et moderniser l’interface d’une plateforme de streaming (type Netflix).  
+L’objectif était de pratiquer **HTML5 sémantique**, **CSS moderne (variables, flex, grid, responsive)**, et **JavaScript ES6+** avec intégration d’API.
 
 ---
 
-## 🛠️ Technologies utilisées
+## 📑 Objectifs pédagogiques
 
-- **HTML5** (structure sémantique, accessibilité ARIA)
-- **CSS3** (animations avancées, responsive design, variables CSS)
-- **JavaScript (ES6+)** (DOM, recherche, effets interactifs)
-- **GitHub** pour la gestion de version
+- **HTML5** : respecter les bonnes pratiques (balises sémantiques, accessibilité ARIA, attributs alt).
+- **CSS3** :
+    - utilisation de **Flexbox** et **Grid**,
+    - design **responsive mobile-first**,
+    - variables CSS et thèmes multiples.
+- **JavaScript ES6+** :
+    - modularisation (`import / export`),
+    - flèches, template literals, optional chaining,
+    - interactions dynamiques (carrousels, recherche, overlay).
+- **API REST** : intégration de [TMDB](https://www.themoviedb.org/) pour afficher films et séries (populaires, nouveautés, par genre).
 
 ---
 
+## 🎨 Thèmes disponibles
+
+L’interface propose **3 thèmes** personnalisables via un bouton toggle :
+
+- **Dark** : fond sombre type Netflix (rouge/bleu).
+- **Light** : fond clair “papier” pour une meilleure lisibilité.
+- **Sepia** : ambiance sombre/violette avec accents néon.
+
+---
+
+## 🖥️ Fonctionnalités
+
+- **Hero dynamique** : un film populaire mis en avant (image + description).
+- **Carrousels par genre** : navigation horizontale avec flèches et inertie.
+- **Recherche** : résultats instantanés affichés en rangée éphémère.
+- **Overlay fiche** : détails d’un film/série (affiche, résumé, genres, durée, casting).
+- **Multi-thème** : dark / light / sepia avec persistance locale (`localStorage`).
+- **Navigation adaptative** : header sticky qui se réduit au scroll, scrollspy pour activer les liens.
+- **Skeleton loading** : animations shimmer pendant le chargement API.
+
+---
+
+## 📱 Responsive
+
+- **Mobile-first** : conception d’abord pensée pour petits écrans.
+- **Breakpoints** : ajustements à 600px, 900px, et 1200px.
+- **Typographie fluide** grâce à `clamp()`.
+
+---
+
+## ⚠️ Notes importantes
+
+- Ce projet est **réalisé à des fins pédagogiques**.
+- L’API TMDB nécessite une clé publique incluse en clair (⚠️ non adapté pour une mise en prod réelle).
+- Certains effets (comme `color-mix()`) peuvent ne pas être supportés sur tous les navigateurs anciens.
+
+---
+
+## 🙋‍♂️ Auteur
+
+Projet réalisé par **Malik** dans le cadre d’un module de développement web.
