@@ -10,9 +10,11 @@
 </head>
 <body>
 
+<!-- Lien d’évitement -->
+<a class="visually-hidden skip-link" href="#top">Aller au contenu</a>
+
 <!-- ==========================================================
-     Header (logo + nav + recherche + actions)
-     NOTE: sticky, se “rétrécit” au scroll via JS
+     Header
      ========================================================== -->
 <header class="site-header" id="header">
     <div class="shell bar">
@@ -30,16 +32,16 @@
             <a href="#nouveautes-films">Nouveautés</a>
         </nav>
 
-        <!-- Actions (recherche + thème + CTA abonnement) -->
+        <!-- Actions -->
         <div class="actions">
-            <!-- Formulaire de recherche (validations natives) -->
-            <form id="searchForm" role="search" aria-label="Rechercher des films" novalidate>
-                <input id="searchInput" name="q" type="search" placeholder="Rechercher un film…"
-                       aria-label="Rechercher un film" required minlength="2">
-                <button class="btn" type="submit">OK</button>
+            <!-- Recherche -->
+            <form id="searchForm" role="search" aria-label="Rechercher des films et séries" novalidate>
+                <input id="searchInput" name="q" type="search" placeholder="Rechercher un titre…"
+                       aria-label="Rechercher un titre" required minlength="2" autocomplete="off">
+                <button class="btn" type="submit" aria-label="Lancer la recherche">OK</button>
             </form>
             <!-- Toggle thème -->
-            <button class="btn" id="themeToggle" type="button" title="Changer de thème">🌓</button>
+            <button class="btn" id="themeToggle" type="button" title="Changer de thème" aria-label="Changer de thème">🌓</button>
             <!-- Bouton abonnement (factice) -->
             <button class="btn btn--primary" type="button">S'abonner</button>
         </div>
@@ -47,17 +49,14 @@
 </header>
 
 <!-- ==========================================================
-     Hero (rempli par l'API au chargement)
-     NOTE: le background est mis à jour avec un film populaire
+     HERO SLIDER (unique source de vérité)
      ========================================================== -->
-<!-- HERO SLIDER -->
-<section class="hero-slider" id="hero" aria-label="Sélection du moment">
-    <div class="slider-viewport">
-        <ul class="slides" id="heroSlides" aria-live="polite"></ul>
+<section class="hero-slider" id="hero" aria-label="Sélection du moment" aria-roledescription="carrousel">
+    <div class="slider-viewport" aria-live="polite">
+        <ul class="slides" id="heroSlides"></ul>
         <div class="hero-gradient" aria-hidden="true"></div>
     </div>
 
-    <!-- Contenu textuel au-dessus (comme avant) -->
     <div class="shell hero-content">
         <div class="eyebrow">Coup de cœur du moment</div>
         <h1 id="heroTitle">Le frisson commence ici.</h1>
@@ -68,17 +67,16 @@
         </div>
     </div>
 
-    <!-- Contrôles -->
     <button class="hero-nav prev" aria-label="Diapositive précédente">❮</button>
     <button class="hero-nav next" aria-label="Diapositive suivante">❯</button>
-    <ol class="hero-dots" id="heroDots" aria-label="Choisir une diapositive"></ol>
+    <ol class="hero-dots" id="heroDots" aria-label="Choisir une diapositive" role="tablist"></ol>
 </section>
 
 <!-- ==========================================================
-     Contenu principal (sections dynamiques)
+     Contenu principal
      ========================================================== -->
 <main class="shell" id="top">
-    <!-- Par genre (Films) : généré dynamiquement en carrousels horizontaux -->
+    <!-- Par genre -->
     <section class="category" id="genres-films" aria-label="Explorer par genre (films)">
         <div class="section-head">
             <h2>Explorer par genre</h2>
@@ -87,7 +85,7 @@
         <div id="genres-rows" class="genre-rows" aria-live="polite"></div>
     </section>
 
-    <!-- Séries populaires (exemple statique mais rempli par API) -->
+    <!-- Séries populaires -->
     <section class="category" id="series-populaires" aria-label="Séries populaires">
         <div class="section-head">
             <h2>Séries populaires</h2>
@@ -107,12 +105,10 @@
 </main>
 
 <!-- ==========================================================
-     Footer (infos + nav secondaires + socials)
+     Footer
      ========================================================== -->
 <footer class="site-footer">
     <div class="shell footer-grid">
-
-        <!-- Bloc identité -->
         <div class="footer-brand">
             <a class="brand" href="#">
                 <span class="dot" aria-hidden="true"></span>
@@ -121,7 +117,6 @@
             <p>Votre destination cinéma & séries en streaming illimité. Qualité HD, sans engagement.</p>
         </div>
 
-        <!-- Navigation -->
         <nav class="footer-nav" aria-label="Liens utiles">
             <h4>Explorer</h4>
             <ul>
@@ -141,10 +136,11 @@
             </ul>
         </nav>
 
-        <!-- Réseaux sociaux -->
         <div class="footer-social">
             <h4>Suivez-nous</h4>
             <a href="#" aria-label="Twitter" title="Twitter">🐦</a>
+            <a href="#" aria-label="Instagram" title="Instagram">📸</a>
+            <a href="#" aria-label="YouTube" title="YouTube">▶️</a>
         </div>
     </div>
 
@@ -154,8 +150,7 @@
 </footer>
 
 <!-- ==========================================================
-     Overlay (fiche détail) — role="dialog"
-     NOTE: affiché quand on clique sur une carte
+     Overlay détail
      ========================================================== -->
 <div class="overlay" id="detailOverlay" hidden>
     <div class="overlay-backdrop" data-close></div>
@@ -169,17 +164,14 @@
             <p class="detail-meta" id="detailMeta"></p>
             <p class="detail-overview" id="detailOverview"></p>
             <div class="detail-extra" id="detailExtra"></div>
+            <div id="detailTrailer" class="detail-trailer" aria-live="polite"></div>
         </div>
     </article>
 </div>
 
 <!-- ==========================================================
-     Scripts (ordre important: animations, api, puis main en module)
+     Script unique (module)
      ========================================================== -->
-<script src="script/animations.js"></script>
-<script src="script/api.js"></script>
-<script type="module" src="script/hero-slider.js"></script>
 <script type="module" src="script/main.js"></script>
-
 </body>
 </html>

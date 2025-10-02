@@ -1,13 +1,9 @@
 /* ============================================================
-   styles.css — base CSS “mobile-first”
-   NOTE: beaucoup de commentaires pour expliquer “comme étudiant”
+   styles.css — base CSS “mobile-first” (amélioré)
    ============================================================ */
 
-/* =========================
-   Variables (3 thèmes)
-   ========================= */
+/* ===== Variables / thèmes / reset — inchangés (extraits de ta base) ===== */
 :root {
-    /* Spacings (on garde des tokens pour être cohérent partout) */
     --space-2xs: 4px;
     --space-xs: 8px;
     --space-sm: 12px;
@@ -16,77 +12,59 @@
     --space-xl: 32px;
     --space-2xl: 48px;
 
-    /* Typo (Inter) + tailles fluides avec clamp() */
     --font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
     --font-size-body: clamp(14px, 1.8vw, 16px);
     --font-size-h1: clamp(28px, 4.5vw, 56px);
     --font-size-h2: clamp(18px, 2.5vw, 28px);
 
-    /* Rayons/ombres/carte */
     --radius: 14px;
     --shadow: 0 10px 30px rgba(0, 0, 0, .35);
     --card-aspect: 2/3;
 
-    /* Vitesse/accélération pour animations */
     --dur-fast: 120ms;
     --dur-med: 220ms;
     --ease: cubic-bezier(.22, .61, .36, 1);
 
-    /* Hero: on met une image par défaut via variable (écrasée par JS) */
     --hero-image: url('https://image.benq.com/is/image/benqco/w4100i-kv?$ResponsivePreset$');
     --hero-pos: center;
     --hero-overlay: linear-gradient(180deg, rgba(0, 0, 0, .6) 0%, rgba(0, 0, 0, .2) 35%, rgba(0, 0, 0, .6) 100%);
-
-    /* Hauteur approx. du header pour les ancres */
     --header-h: 64px;
 }
 
-/* =========================
-   Thèmes (dark / light / sepia)
-   NOTE: juste des variables — pratique pour theming
-   ========================= */
-/* ========== DARK (Full Black) ========== */
-/* vibe: fond noir profond, accents rouge/bleu ciné */
+/* Thèmes dark/light/sepia — conservés */
 [data-theme="dark"] {
-    --bg: #000000; /* noir absolu */
-    --panel: #0a0a0a; /* panneaux légèrement éclaircis */
-    --card: #111111; /* cartes */
-    --border: #1f1f1f; /* bordures subtiles */
-    --text: #f5f5f5; /* texte blanc doux (pas 100% blanc pur) */
-    --muted: #9e9e9e; /* gris pour secondaire */
-    --accent: #e50914; /* rouge Netflix classique (CTA) */
-    --accent-2: #1d9bf0; /* bleu lumineux (hover/focus) */
+    --bg: #000;
+    --panel: #0a0a0a;
+    --card: #111;
+    --border: #1f1f1f;
+    --text: #f5f5f5;
+    --muted: #9e9e9e;
+    --accent: #e50914;
+    --accent-2: #1d9bf0;
 }
 
-/* ========== LIGHT (Paper Crisp) ========== */
-/* vibe: blanc cassé, encre charbon, accents teal/bleu propre */
 [data-theme="light"] {
-    --bg: #f9fafb; /* très clair, pas blanc pur => moins éblouissant */
-    --panel: #ffffff; /* panneaux vraiment blancs pour le contraste */
-    --card: #ffffff;
-    --border: #e6eaf2; /* bordures subtiles */
-    --text: #101623; /* “encre” charbon */
-    --muted: #5b6478; /* gris lisible */
-    --accent: #0ea5a7; /* teal élégant (CTA) */
-    --accent-2: #2563eb; /* bleu franc (focus/hover) */
+    --bg: #f9fafb;
+    --panel: #fff;
+    --card: #fff;
+    --border: #e6eaf2;
+    --text: #101623;
+    --muted: #5b6478;
+    --accent: #0ea5a7;
+    --accent-2: #2563eb;
 }
 
-/* ========== SEPIA (Mystic Violet) ========== */
-/* vibe: base violette profonde, accents fun rose & cyan */
 [data-theme="sepia"] {
-    --bg: #1a1025; /* violet/noir très sombre */
-    --panel: #221232; /* panneaux un peu plus clairs */
-    --card: #2a1840; /* cartes */
-    --border: #3d2857; /* bordures violettes */
-    --text: #ede9f7; /* texte violet très clair */
-    --muted: #a694c4; /* texte secondaire lavande/gris */
-    --accent: #ff4da6; /* rose néon (CTA) */
-    --accent-2: #00e0ff; /* cyan néon (hover/focus) */
+    --bg: #1a1025;
+    --panel: #221232;
+    --card: #2a1840;
+    --border: #3d2857;
+    --text: #ede9f7;
+    --muted: #a694c4;
+    --accent: #ff4da6;
+    --accent-2: #00e0ff;
 }
 
-/* =========================
-   Reset léger (basique)
-   ========================= */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -126,15 +104,41 @@ button {
     margin-inline: auto;
 }
 
-/* =========================
-   En-tête (Header) — sticky + effet shrink
-   ========================= */
+/* Accessibilité utilitaires */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+}
+
+.skip-link:focus {
+    left: 16px;
+    top: 16px;
+    background: #000;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    z-index: 999;
+}
+
+/* ===== Header ===== */
 .site-header {
     position: sticky;
     top: 0;
     z-index: 50;
     backdrop-filter: saturate(1.2) blur(6px);
-    /* NOTE: color-mix est pratique mais pas supporté partout */
     background: color-mix(in srgb, var(--panel) 80%, transparent);
     border-bottom: 1px solid var(--border);
     transition: padding var(--dur-med) var(--ease), background var(--dur-med) var(--ease), border-color var(--dur-med) var(--ease);
@@ -202,9 +206,7 @@ button {
     gap: var(--space-xs);
 }
 
-/* =========================
-   Boutons (primaire/secondaire)
-   ========================= */
+/* Boutons */
 .btn {
     border: 1px solid var(--border);
     background: color-mix(in srgb, var(--panel) 70%, transparent);
@@ -229,7 +231,7 @@ button {
     filter: brightness(1.05);
 }
 
-/* --- Barre de recherche (un peu stylée) --- */
+/* Recherche */
 #searchForm {
     display: flex;
     gap: 8px;
@@ -238,7 +240,6 @@ button {
     margin: 0 auto;
 }
 
-#searchForm input[type="text"],
 #searchForm input[type="search"] {
     padding: 10px 14px;
     border: 1px solid var(--border);
@@ -250,49 +251,87 @@ button {
     outline: none;
 }
 
-#searchForm input[type="text"]:focus,
 #searchForm input[type="search"]:focus {
     border-color: var(--accent-2);
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-2) 40%, transparent);
 }
 
-/* bouton "OK" de la recherche */
 #searchForm .btn {
     background: var(--accent-2);
     color: #fff;
     border: none;
     font-weight: 600;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .10);
     transition: background var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
 }
 
 #searchForm .btn:hover {
     background: var(--accent);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
 }
 
-/* =========================
-   Hero (image + gradient overlay)
-   ========================= */
-.hero {
+/* ===== Hero Slider ===== (conservé + ajustements) */
+.hero-slider {
     position: relative;
-    min-height: 56vh;
+    min-height: 62vh;
+    isolation: isolate;
+    overflow: hidden;
+    scroll-margin-top: var(--header-h);
+    background: #000;
+}
+
+.slider-viewport {
+    position: absolute;
+    inset: 0;
+}
+
+.slides {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    inset: 0;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--dur-med) var(--ease);
+    will-change: opacity;
+}
+
+.slide.is-active {
+    opacity: 1;
+}
+
+.slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--hero-image) center/cover no-repeat;
+    filter: saturate(1.05) contrast(1.02);
+}
+
+.hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, .25) 0%, rgba(0, 0, 0, .55) 60%, rgba(0, 0, 0, .75) 100%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
     display: grid;
     place-items: end start;
-    isolation: isolate;
-    padding: var(--space-xl) 0 var(--space-lg);
-    background: var(--hero-overlay), var(--hero-image) var(--hero-pos)/cover no-repeat;
-    box-shadow: inset 0 -120px 120px -80px rgba(0, 0, 0, .55);
-    scroll-margin-top: var(--header-h);
+    padding: min(8vh, var(--space-xl)) 0 var(--space-lg);
+    min-height: 62vh;
+    max-width: 900px;
 }
 
-.hero .content {
-    max-width: 720px;
-    padding-bottom: var(--space-lg);
-}
-
-.eyebrow {
+.hero-content .eyebrow {
     color: var(--accent-2);
     font-weight: 600;
     letter-spacing: .08em;
@@ -300,25 +339,75 @@ button {
     font-size: .8rem;
 }
 
-.hero h1 {
+.hero-content h1 {
     font-size: var(--font-size-h1);
     line-height: 1.05;
     margin: var(--space-xs) 0 var(--space-sm);
 }
 
-.hero p {
+.hero-content p {
     color: var(--muted);
     margin-bottom: var(--space-md);
 }
 
-.hero .ctas {
+.ctas {
     display: flex;
     gap: var(--space-sm);
 }
 
-/* =========================
-   Sections / grilles (cartes)
-   ========================= */
+.hero-nav {
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    translate: 0 -50%;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: color-mix(in srgb, var(--panel) 85%, transparent);
+    backdrop-filter: blur(6px);
+}
+
+.hero-nav:hover {
+    filter: brightness(1.08);
+}
+
+.hero-nav.prev {
+    left: 16px;
+}
+
+.hero-nav.next {
+    right: 16px;
+}
+
+.hero-dots {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    bottom: 14px;
+    translate: -50% 0;
+    display: flex;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.hero-dots button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 0;
+    background: color-mix(in srgb, var(--panel) 70%, transparent);
+    cursor: pointer;
+}
+
+.hero-dots button[aria-current="true"] {
+    background: var(--accent);
+}
+
+/* ===== Sections, grilles, cartes ===== */
 section.category {
     padding: var(--space-lg) 0;
     scroll-margin-top: calc(var(--header-h) + 12px);
@@ -407,9 +496,7 @@ section.category {
     font-size: .95em;
 }
 
-/* =========================
-   Overlay (fiche détail)
-   ========================= */
+/* ===== Overlay détail ===== */
 .overlay[hidden] {
     display: none;
 }
@@ -434,7 +521,7 @@ section.category {
 .detail-card {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns:1fr;
     gap: 16px;
     width: min(920px, 100%);
     background: var(--panel);
@@ -443,7 +530,7 @@ section.category {
     box-shadow: var(--shadow);
     overflow: hidden;
     transform: translateY(12px) scale(.98);
-    opacity: 0;
+    opacity: 100%;
     animation: card-in 220ms var(--ease) forwards;
 }
 
@@ -491,6 +578,7 @@ section.category {
     gap: 8px;
     font-size: .95em;
     color: var(--muted);
+    margin-bottom: 12px;
 }
 
 .detail-extra .pill {
@@ -499,9 +587,17 @@ section.category {
     border: 1px solid var(--border);
 }
 
+.detail-trailer iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
 @media (min-width: 800px) {
     .detail-card {
-        grid-template-columns: 1fr 1.2fr;
+        grid-template-columns:1fr 1.2fr;
     }
 
     .detail-media {
@@ -509,136 +605,7 @@ section.category {
     }
 }
 
-/* Animations (légères) */
-@keyframes fade-in {
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes card-in {
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* =========================
-   Pied de page (Footer)
-   ========================= */
-footer {
-    margin-top: var(--space-xl);
-    padding: var(--space-lg) 0;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-}
-
-/* =========================
-   Accessibilité & préférences
-   ========================= */
-:focus-visible {
-    outline: 2px solid var(--accent-2);
-    outline-offset: 2px;
-    border-radius: 6px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    * {
-        transition: none !important;
-        animation: none !important;
-    }
-}
-
-/* =========================
-   Breakpoints (mobile-first)
-   ========================= */
-@media (min-width: 600px) {
-    .nav {
-        gap: var(--space-md);
-    }
-
-    .hero {
-        min-height: 62vh;
-    }
-
-    .grid {
-        --min: 150px;
-    }
-}
-
-@media (min-width: 900px) {
-    .hero {
-        min-height: 68vh;
-    }
-
-    .grid {
-        --min: 180px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .grid {
-        --min: 200px;
-    }
-}
-
-/* =========================
-   Onglets (Tabs) — simple style
-   ========================= */
-.tabs [role="tablist"] {
-    display: inline-flex;
-    gap: var(--space-sm);
-    padding: 6px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    position: relative;
-}
-
-.tabs [role="tab"] {
-    position: relative;
-    padding: 10px 18px;
-    font-weight: 600;
-    color: var(--muted);
-    border: none;
-    background: transparent;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
-}
-
-.tabs [role="tab"][aria-selected="true"] {
-    color: var(--text);
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
-}
-
-.tabs [role="tab"]:hover:not([aria-selected="true"]) {
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
-.tabs .indicator {
-    position: absolute;
-    bottom: 0;
-    height: 3px;
-    background: var(--accent);
-    border-radius: 2px;
-    transition: translate var(--dur-med) var(--ease), width var(--dur-med) var(--ease);
-}
-
-.tab-panels {
-    padding-top: var(--space-sm);
-}
-
-/* =========================
-   Défilement confortable
-   ========================= */
-html {
-    scroll-behavior: smooth;
-}
-
-/* =========================
-   Squelettes (Skeletons) — pour chargements
-   ========================= */
+/* ===== Skeletons ===== (conservés) */
 .grid[aria-busy="true"]::before {
     content: "";
     display: block;
@@ -690,9 +657,7 @@ html {
     }
 }
 
-/* =========================
-   Carrousels horizontaux (genres)
-   ========================= */
+/* ===== Carrousels horizontaux (genres) ===== */
 .row {
     position: relative;
     margin-bottom: var(--space-md);
@@ -710,7 +675,6 @@ html {
     font-size: clamp(16px, 2vw, 22px);
 }
 
-/* Piste horizontale avec inertie + scroll-snap */
 .row-track {
     display: grid;
     grid-auto-flow: column;
@@ -724,11 +688,15 @@ html {
     padding: 6px 24px 12px;
 }
 
+.row-track:focus {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+}
+
 .row-track > .card {
     scroll-snap-align: start;
 }
 
-/* Scrollbar discrète (WebKit) */
 .row-track::-webkit-scrollbar {
     height: 10px;
 }
@@ -738,7 +706,6 @@ html {
     border-radius: 8px;
 }
 
-/* Flèches gauche/droite superposées (pointer-events trick) */
 .row-nav {
     position: absolute;
     inset-block: 0;
@@ -780,7 +747,6 @@ html {
     height: 18px;
 }
 
-/* Squelettes harmonisés pour les rangées */
 .row-track[aria-busy="true"] .card {
     position: relative;
     overflow: hidden;
@@ -816,7 +782,6 @@ html {
     border-radius: 6px;
 }
 
-/* Petits ajustements responsive */
 @media (min-width: 900px) {
     .row-track {
         grid-auto-columns: clamp(170px, 16vw, 220px);
@@ -829,92 +794,50 @@ html {
     }
 }
 
-/* ===== HERO SLIDER ===== */
-.hero-slider{
-    position: relative;
-    min-height: 62vh;
-    isolation: isolate;
-    overflow: hidden;
-    scroll-margin-top: var(--header-h);
-    background: #000; /* fallback pendant chargement */
-}
-
-/* Pile des slides (une sur l'autre, cross-fade) */
-.slider-viewport{
-    position:absolute; inset:0;
-}
-.slides{
-    list-style:none; margin:0; padding:0;
-    position:absolute; inset:0;
-}
-.slide{
-    position:absolute; inset:0;
-    opacity:0;
-    transition: opacity var(--dur-med) var(--ease);
-    will-change: opacity;
-}
-.slide.is-active{ opacity:1; }
-
-/* Image de fond (cover) */
-.slide::before{
-    content:"";
-    position:absolute; inset:0;
-    background: var(--hero-image) center/cover no-repeat;
-    /* remplacé en inline style par JS: background-image:url(...) */
-    filter: saturate(1.05) contrast(1.02);
-}
-
-/* Dégradé par-dessus pour la lisibilité du texte */
-.hero-gradient{
-    position:absolute; inset:0;
-    background: linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.55) 60%, rgba(0,0,0,.75) 100%);
-    pointer-events:none;
-}
-
-/* Bloc texte par-dessus */
-.hero-content{
-    position: relative;
-    z-index:2;
-    display:grid; place-items:end start;
-    padding: min(8vh, var(--space-xl)) 0 var(--space-lg);
-    min-height: 62vh;
-    max-width: 900px;
-}
-.hero-content .eyebrow{ color:var(--accent-2); font-weight:600; letter-spacing:.08em; text-transform:uppercase; font-size:.8rem; }
-.hero-content h1{ font-size: var(--font-size-h1); line-height:1.05; margin: var(--space-xs) 0 var(--space-sm); }
-.hero-content p{ color:var(--muted); margin-bottom: var(--space-md); }
-.ctas{ display:flex; gap: var(--space-sm); }
-
-/* Contrôles (flèches) */
-.hero-nav{
-    position:absolute; z-index:3; top:50%; translate:0 -50%;
-    width:42px; height:42px; border-radius:50%;
-    border:none; cursor:pointer;
-    background: color-mix(in srgb, var(--panel) 85%, transparent);
-    backdrop-filter: blur(6px);
-}
-.hero-nav:hover{ filter:brightness(1.08); }
-.hero-nav.prev{ left:16px; }
-.hero-nav.next{ right:16px; }
-
-/* Puces */
-.hero-dots{
-    position:absolute; z-index:3; left:50%; bottom:14px; translate:-50% 0;
-    display:flex; gap:8px; padding:0; margin:0; list-style:none;
-}
-.hero-dots button{
-    width:10px; height:10px; border-radius:50%; border:0;
-    background: color-mix(in srgb, var(--panel) 70%, transparent);
-    cursor:pointer;
-}
-.hero-dots button[aria-current="true"]{ background: var(--accent); }
-
 /* Motion-safe */
-@media (prefers-reduced-motion: reduce){
-    .slide{ transition:none; }
+@media (prefers-reduced-motion: reduce) {
+    .slide {
+        transition: none;
+    }
 }
 
-/* Quelques ajustements sur grands écrans */
-@media (min-width:900px){
-    .hero-slider, .hero-content{ min-height: 68vh; }
+/* Footer */
+footer {
+    margin-top: var(--space-xl);
+    padding: var(--space-lg) 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* Breakpoints identiques */
+@media (min-width: 600px) {
+    .nav {
+        gap: var(--space-md);
+    }
+
+    .grid {
+        --min: 150px;
+    }
+}
+
+@media (min-width: 900px) {
+    .grid {
+        --min: 180px;
+    }
+
+    .hero-slider, .hero-content {
+        min-height: 68vh;
+    }
+}
+
+@media (min-width: 1200px) {
+    .grid {
+        --min: 200px;
+    }
 }
