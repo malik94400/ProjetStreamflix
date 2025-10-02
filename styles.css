@@ -871,53 +871,136 @@ section.category {
 }
 
 /* État global quand le menu mobile est ouvert */
-.menu-open .actions { display: none !important; }     /* cache les actions à droite de la barre */
-.menu-open .site-header { background: color-mix(in srgb, var(--panel) 96%, black); } /* rend le header plus opaque */
+.menu-open .actions {
+    display: none !important;
+}
+
+/* cache les actions à droite de la barre */
+.menu-open .site-header {
+    background: color-mix(in srgb, var(--panel) 96%, black);
+}
+
+/* rend le header plus opaque */
 
 /* Panneau mobile : on l’aligne sous la barre, et on le rend scrollable au besoin */
-.mobile-panel{
-    position:fixed; z-index:99; left:0; right:0;
-    top: var(--header-h);                  /* <-- on va mettre --header-h à jour en JS */
+.mobile-panel {
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    right: 0;
+    top: var(--header-h); /* <-- on va mettre --header-h à jour en JS */
     background: color-mix(in srgb, var(--panel) 98%, black);
-    border-bottom:1px solid var(--border);
-    max-height:0; overflow:hidden;
-    transition:max-height var(--dur-med) var(--ease), opacity var(--dur-med) var(--ease);
-    opacity:.0;
+    border-bottom: 1px solid var(--border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--dur-med) var(--ease), opacity var(--dur-med) var(--ease);
+    opacity: .0;
 }
-.mobile-panel.open{ opacity:1; max-height:min(70vh, 520px); }
+
+.mobile-panel.open {
+    opacity: 1;
+    max-height: min(70vh, 520px);
+}
 
 /* Contenu du panneau mobile */
-.mobile-actions{ padding: 12px 16px 16px; display: grid; gap: 12px; border-top: 1px solid var(--border); }
-.mobile-cta{ display:flex; gap:8px; }
+.mobile-actions {
+    padding: 12px 16px 16px;
+    display: grid;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.mobile-cta {
+    display: flex;
+    gap: 8px;
+}
 
 /* Formulaire mobile cohérent avec le desktop */
-#searchFormMobile{
-    display:flex; gap:8px; align-items:center;
+#searchFormMobile {
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
-#searchFormMobile input[type="search"]{
-    padding:10px 14px; border:1px solid var(--border); border-radius:10px; font-size:1rem; background:var(--panel); color:var(--text);
+
+#searchFormMobile input[type="search"] {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: var(--panel);
+    color: var(--text);
 }
-#searchFormMobile input[type="search"]:focus{
-    border-color:var(--accent-2);
-    box-shadow:0 0 0 2px color-mix(in srgb, var(--accent-2) 40%, transparent);
+
+#searchFormMobile input[type="search"]:focus {
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-2) 40%, transparent);
 }
 
 /* Sur petits écrans, on cache la nav desktop et on compacte la barre */
-@media (max-width: 899px){
-    .nav{ display:none; }                  /* la nav au milieu disparaît (sinon elle casse la barre) */
-    .actions{ display:flex; }              /* actions visibles quand le menu est fermé... */
-    .menu-open .actions{ display:none; }   /* ...mais cachées quand il est ouvert */
+@media (max-width: 899px) {
+    .nav {
+        display: none;
+    }
+
+    /* la nav au milieu disparaît (sinon elle casse la barre) */
+    .actions {
+        display: flex;
+    }
+
+    /* actions visibles quand le menu est fermé... */
+    .menu-open .actions {
+        display: none;
+    }
+
+    /* ...mais cachées quand il est ouvert */
     /* largeur plus raisonnable du champ de recherche desktop (si tu le gardes visible) */
-    #searchForm input[type="search"]{ width: min(52vw, 240px); }
+    #searchForm input[type="search"] {
+        width: min(52vw, 240px);
+    }
 }
 
 /* Au-dessus de 900px : panneau mobile inutilisé */
-@media (min-width: 900px){
-    .mobile-panel{ display:none !important; }
-}
-/* Mobile : cacher les actions de la barre (recherche/OK/thème/CTA) */
-@media (max-width: 899px){
-    .actions{
+@media (min-width: 900px) {
+    .mobile-panel {
         display: none !important;
     }
+}
+
+/* Mobile : cacher les actions de la barre (recherche/OK/thème/CTA) */
+@media (max-width: 899px) {
+    .actions {
+        display: none !important;
+    }
+}
+
+/* =========================
+   Logo SVG (conservé)
+   ========================= */
+.logo {
+    width: 180px;
+    height: auto;
+}
+
+/* Pastille à gauche */
+.logo-dot {
+    fill: var(--accent);
+    transition: fill 0.3s ease;
+}
+
+/* Texte générique */
+.logo-text {
+    font-family: "Inter", sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    transition: fill 0.3s ease;
+}
+
+/* Stream = couleur texte standard */
+.logo-text.stream {
+    fill: var(--text);
+}
+
+/* Flix = couleur accent secondaire */
+.logo-text.flix {
+    fill: var(--accent);
 }

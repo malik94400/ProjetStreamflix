@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Favicon SVG (light/dark auto via media) -->
+    <link rel="icon" type="image/svg+xml" href="favicons/favicon-light.svg">
 </head>
 <body>
 
@@ -25,8 +27,14 @@
 
             <!-- Logo/brand -->
             <a class="brand" href="#" aria-label="StreamFlix, Accueil">
-                <span class="dot" aria-hidden="true"></span>
-                <span onclick="window.location.href='index.html'" style="cursor:pointer;">StreamFlix</span>
+                <svg class="logo" viewBox="0 0 240 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <!-- Triangle (play) -->
+                    <polygon points="10,6 10,34 34,20" class="logo-dot"/>
+                    <!-- Texte "Stream" -->
+                    <text x="50" y="27" class="logo-text stream">Stream</text>
+                    <!-- Texte "Flix" -->
+                    <text x="135" y="27" class="logo-text flix">Flix</text>
+                </svg>
             </a>
         </div>
 
