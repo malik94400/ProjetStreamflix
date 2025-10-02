@@ -3,7 +3,13 @@
    ============================================================ */
 
 import { TMDB, TMDB_CONFIG, tmdbFetch } from './api.js';
-import { setupThemeToggle, setupHeaderShrink, setupTabsIndicator, setupScrollSpyNav } from './animations.js';
+import {
+    setupThemeToggle,
+    setupHeaderShrink,
+    setupTabsIndicator,
+    setupScrollSpyNav,
+    setupMobileHeader
+} from './animations.js';
 import { buildHeroFromTMDB } from './hero-slider.js';
 
 /* ------------------------------------------------------------
@@ -342,6 +348,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     setupHeaderShrink();
     setupTabsIndicator();
     setupScrollSpyNav();
+    setupMobileHeader();
 
     await loadNonGenreSections();
     await buildGenreRows();

@@ -1,5 +1,5 @@
 /* ============================================================
-   animations.js — petites animations du site (inchangé)
+   animations.js — petites animations du site (mobile header ok)
    ============================================================ */
 
 export function setupThemeToggle() {
@@ -7,10 +7,8 @@ export function setupThemeToggle() {
     const root = document.documentElement;
     const btn = document.getElementById("themeToggle");
     const LS_KEY = "sf-theme";
-
     const saved = localStorage.getItem(LS_KEY);
     if (saved && themes.includes(saved)) root.setAttribute("data-theme", saved);
-
     btn?.addEventListener("click", () => {
         const current = root.getAttribute("data-theme") || "dark";
         const next = themes[(themes.indexOf(current) + 1) % themes.length];
@@ -36,60 +34,116 @@ export function setupHeaderShrink() {
 export function setupTabsIndicator() {
     const tablist = document.querySelector('.tabs [role="tablist"]');
     if (!tablist) return;
-
     const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
     const indicator = tablist.querySelector('.indicator');
     const panels = Array.from(tablist.parentElement.querySelectorAll('[role="tabpanel"]'));
-
     function selectTab(idx) {
         tabs.forEach((t, i) => t.setAttribute('aria-selected', i === idx ? 'true' : 'false'));
         panels.forEach((p, i) => p.hidden = i !== idx);
-
         const tab = tabs[idx];
         const r = tab.getBoundingClientRect();
         const rList = tablist.getBoundingClientRect();
         indicator.style.width = r.width + 'px';
         indicator.style.translate = (r.left - rList.left) + 'px 0';
     }
-
     tabs.forEach((t, i) => t.addEventListener('click', () => selectTab(i)));
-
     window.addEventListener('resize', () => {
         const active = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
         if (active > -1) selectTab(active);
     });
-
     selectTab(0);
 }
 
 export function setupScrollSpyNav() {
     const nav = document.getElementById('mainNav');
     if (!nav) return;
-
     const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
     const map = new Map();
-
     links.forEach(a => {
         const id = a.getAttribute('href')?.slice(1);
         const sec = id ? document.getElementById(id) : null;
         if (sec) map.set(sec, a);
     });
-
     function setActive(a) {
-        links.forEach(x => {
-            x.classList.remove('is-active');
-            x.removeAttribute('aria-current');
-        });
-        a?.classList.add('is-active');
-        a?.setAttribute('aria-current', 'page');
+        links.forEach(x => { x.classList.remove('is-active'); x.removeAttribute('aria-current'); });
+        a?.classList.add('is-active'); a?.setAttribute('aria-current', 'page');
     }
-
     const obs = new IntersectionObserver((entries) => {
-        const best = entries.filter(e => e.isIntersecting)
-            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        const best = entries.filter(e => e.isIntersecting).sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
         if (best) setActive(map.get(best.target));
     }, {rootMargin: "-40% 0px -50% 0px", threshold: [0.25, 0.6, 0.9]});
-
     map.forEach((_, sec) => obs.observe(sec));
     links.forEach(a => a.addEventListener('click', () => setActive(a)));
+}
+
+/* ===== Nouveau : header mobile ===== */
+export function setupMobileHeader(){
+    const toggle = document.getElementById('menuToggle');
+    const panel  = document.getElementById('mobilePanel');
+    const root   = document.documentElement;
+    const headerBar = document.querySelector('.site-header .bar');
+
+    if (!toggle || !panel || !headerBar) return;
+
+    // met à jour --header-h selon la hauteur réelle de la barre (incluant safe-area)
+    const setHeaderHeight = () => {
+        const h = headerBar.getBoundingClientRect().height;
+        root.style.setProperty('--header-h', `${Math.ceil(h)}px`);
+    };
+    setHeaderHeight();
+
+    function open(){
+        panel.hidden = false;
+        requestAnimationFrame(()=> panel.classList.add('open'));
+        toggle.setAttribute('aria-expanded','true');
+        root.classList.add('menu-open');
+        document.body.style.overflow = 'hidden';
+        setHeaderHeight();
+    }
+    function close(){
+        panel.classList.remove('open');
+        toggle.setAttribute('aria-expanded','false');
+        root.classList.remove('menu-open');
+        document.body.style.overflow = '';
+        setTimeout(()=> { if (!panel.classList.contains('open')) panel.hidden = true; }, 220);
+    }
+    function toggleMenu(){
+        (toggle.getAttribute('aria-expanded') === 'true') ? close() : open();
+    }
+
+    toggle.addEventListener('click', toggleMenu);
+
+    // Fermer au clic sur un lien du panneau
+    panel.addEventListener('click', (e)=>{
+        if (e.target.closest('a')) close();
+    });
+
+    // Fermer à ESC
+    document.addEventListener('keydown', (e)=>{
+        if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') close();
+    });
+
+    // Recalcul quand on redimensionne / quand le header “shrink”
+    window.addEventListener('resize', setHeaderHeight, { passive: true });
+    window.addEventListener('scroll', setHeaderHeight, { passive: true });
+
+    // Mini pont de thème mobile : réutilise le bouton mobile si cliqué
+    document.getElementById('themeToggleMobile')?.addEventListener('click', ()=>{
+        document.getElementById('themeToggle')?.click();
+    });
+
+    // Recherche mobile -> réutilise la même logique
+    const formMobile = document.getElementById('searchFormMobile');
+    const inputMobile = document.getElementById('searchInputMobile');
+    formMobile?.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const q = inputMobile.value.trim();
+        if (q.length < 2) { inputMobile.setCustomValidity("Au moins 2 caractères."); inputMobile.reportValidity(); return; }
+        inputMobile.setCustomValidity("");
+        // Déclenche la recherche du form desktop si besoin
+        const desktopInput = document.getElementById('searchInput');
+        if (desktopInput) desktopInput.value = q;
+        document.getElementById('searchForm')?.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));
+        close();
+    });
 }

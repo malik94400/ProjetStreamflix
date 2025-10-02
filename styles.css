@@ -1,8 +1,8 @@
 /* ============================================================
-   styles.css — base CSS “mobile-first” (amélioré)
+   styles.css — (version avec header mobile amélioré)
    ============================================================ */
 
-/* ===== Variables / thèmes / reset — inchangés (extraits de ta base) ===== */
+/* --- variables / thèmes / reset (repris de ta base) --- */
 :root {
     --space-2xs: 4px;
     --space-xs: 8px;
@@ -11,27 +11,22 @@
     --space-lg: 24px;
     --space-xl: 32px;
     --space-2xl: 48px;
-
     --font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
     --font-size-body: clamp(14px, 1.8vw, 16px);
     --font-size-h1: clamp(28px, 4.5vw, 56px);
     --font-size-h2: clamp(18px, 2.5vw, 28px);
-
     --radius: 14px;
     --shadow: 0 10px 30px rgba(0, 0, 0, .35);
     --card-aspect: 2/3;
-
     --dur-fast: 120ms;
     --dur-med: 220ms;
     --ease: cubic-bezier(.22, .61, .36, 1);
-
     --hero-image: url('https://image.benq.com/is/image/benqco/w4100i-kv?$ResponsivePreset$');
     --hero-pos: center;
     --hero-overlay: linear-gradient(180deg, rgba(0, 0, 0, .6) 0%, rgba(0, 0, 0, .2) 35%, rgba(0, 0, 0, .6) 100%);
     --header-h: 64px;
 }
 
-/* Thèmes dark/light/sepia — conservés */
 [data-theme="dark"] {
     --bg: #000;
     --panel: #0a0a0a;
@@ -125,40 +120,51 @@ button {
 
 .skip-link:focus {
     left: 16px;
-    top: 16px;
+    top: calc(env(safe-area-inset-top, 0px) + 16px);
     background: #000;
     color: #fff;
     padding: 8px 12px;
     border-radius: 8px;
-    z-index: 999;
+    z-index: 1000;
 }
 
-/* ===== Header ===== */
+/* =========================
+   HEADER (mobile amélioré)
+   ========================= */
 .site-header {
     position: sticky;
-    top: 0;
-    z-index: 50;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 100;
     backdrop-filter: saturate(1.2) blur(6px);
-    background: color-mix(in srgb, var(--panel) 80%, transparent);
+    background: color-mix(in srgb, var(--panel) 88%, transparent);
     border-bottom: 1px solid var(--border);
     transition: padding var(--dur-med) var(--ease), background var(--dur-med) var(--ease), border-color var(--dur-med) var(--ease);
+    /* améliore le rendu iOS quand blur + sticky */
+    -webkit-backdrop-filter: saturate(1.2) blur(6px);
 }
 
 .site-header .bar {
-    display: flex;
+    display: grid;
+    grid-template-columns:auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-sm);
-    padding: var(--space-sm) 0;
+    padding: calc(6px + env(safe-area-inset-top, 0px)) 0 6px;
 }
 
 .site-header.shrink .bar {
-    padding: 4px 0;
+    padding: calc(2px + env(safe-area-inset-top, 0px)) 0 2px;
 }
 
 .site-header.shrink {
-    background: color-mix(in srgb, var(--panel) 92%, transparent);
+    background: color-mix(in srgb, var(--panel) 94%, transparent);
     border-color: color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.brand-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
 }
 
 .brand {
@@ -177,6 +183,57 @@ button {
     display: inline-block;
 }
 
+/* Hamburger (affiché < 900px) */
+.hamburger {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--panel) 70%, transparent);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.hamburger-box {
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    position: relative;
+    display: block;
+}
+
+.hamburger-box::before, .hamburger-box::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: currentColor;
+}
+
+.hamburger-box::before {
+    top: -6px;
+}
+
+.hamburger-box::after {
+    top: 6px;
+}
+
+.hamburger[aria-expanded="true"] .hamburger-box {
+    background: transparent;
+}
+
+.hamburger[aria-expanded="true"] .hamburger-box::before {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger[aria-expanded="true"] .hamburger-box::after {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Nav desktop */
 .nav {
     display: flex;
     align-items: center;
@@ -188,6 +245,7 @@ button {
     border-radius: 10px;
     color: var(--muted);
     transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+    white-space: nowrap;
 }
 
 .nav a[aria-current="page"], .nav a.is-active {
@@ -200,13 +258,54 @@ button {
     background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
+/* Actions (recherche + boutons) */
 .actions {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
+    min-width: 0;
 }
 
-/* Boutons */
+#searchForm {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#searchForm input[type="search"] {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: var(--panel);
+    color: var(--text);
+    transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+    outline: none;
+    min-width: 0;
+}
+
+#searchForm input[type="search"]:focus {
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-2) 40%, transparent);
+}
+
+#searchForm .btn {
+    background: var(--accent-2);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    letter-spacing: .5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .10);
+    transition: background var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+
+#searchForm .btn:hover {
+    background: var(--accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+}
+
 .btn {
     border: 1px solid var(--border);
     background: color-mix(in srgb, var(--panel) 70%, transparent);
@@ -231,47 +330,79 @@ button {
     filter: brightness(1.05);
 }
 
-/* Recherche */
-#searchForm {
+/* Panneau mobile (drawer) */
+.mobile-panel {
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    right: 0;
+    top: calc(var(--header-h) + env(safe-area-inset-top, 0px)); /* s’aligne sous le header */
+    background: color-mix(in srgb, var(--panel) 98%, black);
+    border-bottom: 1px solid var(--border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--dur-med) var(--ease), opacity var(--dur-med) var(--ease);
+    opacity: .0;
+}
+
+.mobile-panel.open {
+    opacity: 1;
+    max-height: min(70vh, 520px);
+}
+
+.nav-mobile {
     display: flex;
-    gap: 8px;
-    align-items: center;
-    max-width: 400px;
-    margin: 0 auto;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 16px 16px; /* zones cliquables généreuses */
 }
 
-#searchForm input[type="search"] {
-    padding: 10px 14px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 1rem;
-    background: var(--panel);
+.nav-mobile a {
+    padding: 12px 10px;
+    border-radius: 12px;
     color: var(--text);
-    transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
-    outline: none;
+    background: color-mix(in srgb, var(--panel) 70%, transparent);
 }
 
-#searchForm input[type="search"]:focus {
-    border-color: var(--accent-2);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-2) 40%, transparent);
+.nav-mobile a + a {
+    margin-top: 6px;
 }
 
-#searchForm .btn {
-    background: var(--accent-2);
-    color: #fff;
-    border: none;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .10);
-    transition: background var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+/* -------- Breakpoints -------- */
+@media (max-width: 899px) {
+    /* On cache la nav desktop et on montre le hamburger */
+    .nav {
+        display: none;
+    }
+
+    .hamburger {
+        display: grid;
+    }
+
+    /* Compacter le header pour éviter le “bizarre” sur 2 lignes */
+    .site-header .bar {
+        grid-template-columns:auto 1fr auto;
+    }
+
+    /* La recherche prend moins de place (shrink) */
+    #searchForm input[type="search"] {
+        width: min(52vw, 240px);
+    }
 }
 
-#searchForm .btn:hover {
-    background: var(--accent);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+@media (min-width: 900px) {
+    .hamburger {
+        display: none;
+    }
+
+    .mobile-panel {
+        display: none !important;
+    }
 }
 
-/* ===== Hero Slider ===== (conservé + ajustements) */
+/* =========================
+   HERO SLIDER (conservé)
+   ========================= */
 .hero-slider {
     position: relative;
     min-height: 62vh;
@@ -407,7 +538,9 @@ button {
     background: var(--accent);
 }
 
-/* ===== Sections, grilles, cartes ===== */
+/* =========================
+   Sections / grilles / cartes (conservés)
+   ========================= */
 section.category {
     padding: var(--space-lg) 0;
     scroll-margin-top: calc(var(--header-h) + 12px);
@@ -496,7 +629,9 @@ section.category {
     font-size: .95em;
 }
 
-/* ===== Overlay détail ===== */
+/* =========================
+   Overlay détail (conservé + fix reduce motion)
+   ========================= */
 .overlay[hidden] {
     display: none;
 }
@@ -504,7 +639,7 @@ section.category {
 .overlay {
     position: fixed;
     inset: 0;
-    z-index: 80;
+    z-index: 110;
     display: grid;
     place-items: center;
     padding: 24px;
@@ -530,7 +665,7 @@ section.category {
     box-shadow: var(--shadow);
     overflow: hidden;
     transform: translateY(12px) scale(.98);
-    opacity: 100%;
+    opacity: 0;
     animation: card-in 220ms var(--ease) forwards;
 }
 
@@ -605,59 +740,40 @@ section.category {
     }
 }
 
-/* ===== Skeletons ===== (conservés) */
-.grid[aria-busy="true"]::before {
-    content: "";
-    display: block;
-    height: 0;
-    margin-bottom: var(--space-sm);
-}
-
-.grid[aria-busy="true"] .card {
-    position: relative;
-    overflow: hidden;
-    background: color-mix(in srgb, var(--card) 60%, transparent);
-}
-
-.grid[aria-busy="true"] .poster,
-.grid[aria-busy="true"] .meta .title,
-.grid[aria-busy="true"] .meta .sub {
-    background: linear-gradient(90deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02), rgba(255, 255, 255, .08));
-    background-size: 200% 100%;
-    animation: sf-shimmer 1.2s linear infinite;
-    color: transparent;
-}
-
-.grid[aria-busy="true"] .poster {
-    aspect-ratio: var(--card-aspect);
-}
-
-.grid[aria-busy="true"] .meta {
-    padding: var(--space-sm);
-}
-
-.grid[aria-busy="true"] .meta .title {
-    height: 16px;
-    margin-bottom: 6px;
-    border-radius: 6px;
-}
-
-.grid[aria-busy="true"] .meta .sub {
-    height: 12px;
-    width: 40%;
-    border-radius: 6px;
-}
-
-@keyframes sf-shimmer {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
+/* Animations */
+@keyframes fade-in {
+    to {
+        opacity: 1;
     }
 }
 
-/* ===== Carrousels horizontaux (genres) ===== */
+@keyframes card-in {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Réduction animations : rendre visibles directement */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+
+    .overlay-backdrop {
+        opacity: 1 !important;
+    }
+
+    .detail-card {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/* =========================
+   Carrousels horizontaux (conservés)
+   ========================= */
 .row {
     position: relative;
     margin-bottom: var(--space-md);
@@ -686,11 +802,6 @@ section.category {
     scroll-snap-type: x mandatory;
     scroll-padding: 0 24px;
     padding: 6px 24px 12px;
-}
-
-.row-track:focus {
-    outline: 2px solid var(--accent-2);
-    outline-offset: 2px;
 }
 
 .row-track > .card {
@@ -747,41 +858,6 @@ section.category {
     height: 18px;
 }
 
-.row-track[aria-busy="true"] .card {
-    position: relative;
-    overflow: hidden;
-    background: color-mix(in srgb, var(--card) 60%, transparent);
-}
-
-.row-track[aria-busy="true"] .poster,
-.row-track[aria-busy="true"] .meta .title,
-.row-track[aria-busy="true"] .meta .sub {
-    background: linear-gradient(90deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02), rgba(255, 255, 255, .08));
-    background-size: 200% 100%;
-    animation: sf-shimmer 1.2s linear infinite;
-    color: transparent;
-}
-
-.row-track[aria-busy="true"] .poster {
-    aspect-ratio: var(--card-aspect);
-}
-
-.row-track[aria-busy="true"] .meta {
-    padding: var(--space-sm);
-}
-
-.row-track[aria-busy="true"] .meta .title {
-    height: 16px;
-    margin-bottom: 6px;
-    border-radius: 6px;
-}
-
-.row-track[aria-busy="true"] .meta .sub {
-    height: 12px;
-    width: 40%;
-    border-radius: 6px;
-}
-
 @media (min-width: 900px) {
     .row-track {
         grid-auto-columns: clamp(170px, 16vw, 220px);
@@ -794,50 +870,54 @@ section.category {
     }
 }
 
-/* Motion-safe */
-@media (prefers-reduced-motion: reduce) {
-    .slide {
-        transition: none;
-    }
+/* État global quand le menu mobile est ouvert */
+.menu-open .actions { display: none !important; }     /* cache les actions à droite de la barre */
+.menu-open .site-header { background: color-mix(in srgb, var(--panel) 96%, black); } /* rend le header plus opaque */
+
+/* Panneau mobile : on l’aligne sous la barre, et on le rend scrollable au besoin */
+.mobile-panel{
+    position:fixed; z-index:99; left:0; right:0;
+    top: var(--header-h);                  /* <-- on va mettre --header-h à jour en JS */
+    background: color-mix(in srgb, var(--panel) 98%, black);
+    border-bottom:1px solid var(--border);
+    max-height:0; overflow:hidden;
+    transition:max-height var(--dur-med) var(--ease), opacity var(--dur-med) var(--ease);
+    opacity:.0;
+}
+.mobile-panel.open{ opacity:1; max-height:min(70vh, 520px); }
+
+/* Contenu du panneau mobile */
+.mobile-actions{ padding: 12px 16px 16px; display: grid; gap: 12px; border-top: 1px solid var(--border); }
+.mobile-cta{ display:flex; gap:8px; }
+
+/* Formulaire mobile cohérent avec le desktop */
+#searchFormMobile{
+    display:flex; gap:8px; align-items:center;
+}
+#searchFormMobile input[type="search"]{
+    padding:10px 14px; border:1px solid var(--border); border-radius:10px; font-size:1rem; background:var(--panel); color:var(--text);
+}
+#searchFormMobile input[type="search"]:focus{
+    border-color:var(--accent-2);
+    box-shadow:0 0 0 2px color-mix(in srgb, var(--accent-2) 40%, transparent);
 }
 
-/* Footer */
-footer {
-    margin-top: var(--space-xl);
-    padding: var(--space-lg) 0;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
+/* Sur petits écrans, on cache la nav desktop et on compacte la barre */
+@media (max-width: 899px){
+    .nav{ display:none; }                  /* la nav au milieu disparaît (sinon elle casse la barre) */
+    .actions{ display:flex; }              /* actions visibles quand le menu est fermé... */
+    .menu-open .actions{ display:none; }   /* ...mais cachées quand il est ouvert */
+    /* largeur plus raisonnable du champ de recherche desktop (si tu le gardes visible) */
+    #searchForm input[type="search"]{ width: min(52vw, 240px); }
 }
 
-:focus-visible {
-    outline: 2px solid var(--accent-2);
-    outline-offset: 2px;
-    border-radius: 6px;
+/* Au-dessus de 900px : panneau mobile inutilisé */
+@media (min-width: 900px){
+    .mobile-panel{ display:none !important; }
 }
-
-/* Breakpoints identiques */
-@media (min-width: 600px) {
-    .nav {
-        gap: var(--space-md);
-    }
-
-    .grid {
-        --min: 150px;
-    }
-}
-
-@media (min-width: 900px) {
-    .grid {
-        --min: 180px;
-    }
-
-    .hero-slider, .hero-content {
-        min-height: 68vh;
-    }
-}
-
-@media (min-width: 1200px) {
-    .grid {
-        --min: 200px;
+/* Mobile : cacher les actions de la barre (recherche/OK/thème/CTA) */
+@media (max-width: 899px){
+    .actions{
+        display: none !important;
     }
 }

@@ -10,21 +10,27 @@
 </head>
 <body>
 
-<!-- Lien d’évitement -->
 <a class="visually-hidden skip-link" href="#top">Aller au contenu</a>
 
-<!-- ==========================================================
-     Header
-     ========================================================== -->
 <header class="site-header" id="header">
     <div class="shell bar">
-        <!-- Logo/brand -->
-        <a class="brand" href="#" aria-label="StreamFlix, Accueil">
-            <span class="dot" aria-hidden="true"></span>
-            <span onclick="window.location.href='index.html'" style="cursor:pointer;">StreamFlix</span>
-        </a>
+        <div class="brand-wrap">
+            <!-- Bouton menu (mobile) -->
+            <button class="hamburger" id="menuToggle"
+                    aria-label="Ouvrir le menu"
+                    aria-expanded="false"
+                    aria-controls="mobilePanel">
+                <span class="hamburger-box" aria-hidden="true"></span>
+            </button>
 
-        <!-- Navigation principale -->
+            <!-- Logo/brand -->
+            <a class="brand" href="#" aria-label="StreamFlix, Accueil">
+                <span class="dot" aria-hidden="true"></span>
+                <span onclick="window.location.href='index.html'" style="cursor:pointer;">StreamFlix</span>
+            </a>
+        </div>
+
+        <!-- Navigation principale (desktop) -->
         <nav class="nav" aria-label="Navigation principale" id="mainNav">
             <a href="#top" aria-current="page">Accueil</a>
             <a href="#genres-films">Par genre</a>
@@ -34,23 +40,38 @@
 
         <!-- Actions -->
         <div class="actions">
-            <!-- Recherche -->
             <form id="searchForm" role="search" aria-label="Rechercher des films et séries" novalidate>
                 <input id="searchInput" name="q" type="search" placeholder="Rechercher un titre…"
                        aria-label="Rechercher un titre" required minlength="2" autocomplete="off">
                 <button class="btn" type="submit" aria-label="Lancer la recherche">OK</button>
             </form>
-            <!-- Toggle thème -->
             <button class="btn" id="themeToggle" type="button" title="Changer de thème" aria-label="Changer de thème">🌓</button>
-            <!-- Bouton abonnement (factice) -->
             <button class="btn btn--primary" type="button">S'abonner</button>
+        </div>
+    </div>
+
+    <!-- Panneau mobile : on réutilise la même nav dedans -->
+    <div id="mobilePanel" class="mobile-panel" hidden>
+        <nav class="nav nav-mobile" aria-label="Navigation principale (mobile)">
+            <a href="#top">Accueil</a>
+            <a href="#genres-films">Par genre</a>
+            <a href="#series-populaires">Séries</a>
+            <a href="#nouveautes-films">Nouveautés</a>
+        </nav>
+
+        <div class="mobile-actions">
+            <form id="searchFormMobile" role="search" aria-label="Rechercher des films et séries (mobile)" novalidate>
+                <input id="searchInputMobile" name="q" type="search" placeholder="Rechercher un titre…" required minlength="2" autocomplete="off">
+                <button class="btn" type="submit" aria-label="Lancer la recherche">OK</button>
+            </form>
+            <div class="mobile-cta">
+                <button class="btn" id="themeToggleMobile" type="button" title="Changer de thème" aria-label="Changer de thème">🌓</button>
+                <button class="btn btn--primary" type="button">S'abonner</button>
+            </div>
         </div>
     </div>
 </header>
 
-<!-- ==========================================================
-     HERO SLIDER (unique source de vérité)
-     ========================================================== -->
 <section class="hero-slider" id="hero" aria-label="Sélection du moment" aria-roledescription="carrousel">
     <div class="slider-viewport" aria-live="polite">
         <ul class="slides" id="heroSlides"></ul>
@@ -72,11 +93,7 @@
     <ol class="hero-dots" id="heroDots" aria-label="Choisir une diapositive" role="tablist"></ol>
 </section>
 
-<!-- ==========================================================
-     Contenu principal
-     ========================================================== -->
 <main class="shell" id="top">
-    <!-- Par genre -->
     <section class="category" id="genres-films" aria-label="Explorer par genre (films)">
         <div class="section-head">
             <h2>Explorer par genre</h2>
@@ -85,7 +102,6 @@
         <div id="genres-rows" class="genre-rows" aria-live="polite"></div>
     </section>
 
-    <!-- Séries populaires -->
     <section class="category" id="series-populaires" aria-label="Séries populaires">
         <div class="section-head">
             <h2>Séries populaires</h2>
@@ -94,7 +110,6 @@
         <div class="grid" id="grid-series" aria-busy="false"></div>
     </section>
 
-    <!-- Nouveautés Films -->
     <section class="category" id="nouveautes-films" aria-label="Nouveautés – Films">
         <div class="section-head">
             <h2>Nouveautés</h2>
@@ -104,9 +119,6 @@
     </section>
 </main>
 
-<!-- ==========================================================
-     Footer
-     ========================================================== -->
 <footer class="site-footer">
     <div class="shell footer-grid">
         <div class="footer-brand">
@@ -149,9 +161,6 @@
     </div>
 </footer>
 
-<!-- ==========================================================
-     Overlay détail
-     ========================================================== -->
 <div class="overlay" id="detailOverlay" hidden>
     <div class="overlay-backdrop" data-close></div>
     <article class="detail-card" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
@@ -169,9 +178,6 @@
     </article>
 </div>
 
-<!-- ==========================================================
-     Script unique (module)
-     ========================================================== -->
 <script type="module" src="script/main.js"></script>
 </body>
 </html>
